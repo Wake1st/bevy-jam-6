@@ -40,10 +40,10 @@ Grow a network of energy dispersing hubs - each causing the others to react.
   - ~~[ ] connected via graph network~~
 - [ ] modules
   - [ ] different types of energy dispersal
-    - [ ] gong:       pulses outward a diminishing ring of energy
-    - [ ] generator:  pulsing field of evenly distributed energy
-    - [ ] beam:       slowly spinning beam of energy
-    - [ ] tesla:      randomly dispersed jolt of energy
+    - [ ] gong:       diamond   | pulses outward a diminishing ring of energy
+    - [ ] generator:  hexagon   | pulsing field of evenly distributed energy
+    - [ ] cannon:     pentagon  | slowly spinning beam of energy
+    - [ ] tesla:      triangle  | randomly dispersed jolt of energy
     - ~~[ ] pump:      surges energy along the network edges~~
   - [ ] any module can fit to any hub
   - [ ] modules use immediate energy available
@@ -57,15 +57,14 @@ Grow a network of energy dispersing hubs - each causing the others to react.
   - [ ] pulse stores reciever entity and timer
   - [ ] disperser keeps track of pulses
   - [ ] check pulse timer for end, then remove
-  - [ ] if no pulse, and dispersal clear, add pulse and give energy 
-- [ ] dispersal 
-  - [ ] is the effect itself, spreading energy 
-    - [ ] field: all within are updated simultaneously 
+  - [ ] if no pulse, and dispersal clear, add pulse and give energy
+- [ ] dispersal
+  - [ ] is the effect itself, spreading energy
+    - [ ] field: all within are updated simultaneously
     - [ ] beam: all within width are checked
     - [ ] wave: all within ring are checked
     - [ ] bolt: moves on after timer
-  - [ ] use bloom to visualize 
-
+  - [ ] use bloom to visualize
 
 ## Limitations
 

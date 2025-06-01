@@ -1,5 +1,10 @@
 use bevy::prelude::*;
 
+pub const PRICE_GONG: u16 = 10;
+pub const PRICE_GENERATOR: u16 = 120;
+pub const PRICE_TESLA: u16 = 2100;
+pub const PRICE_LAZER: u16 = 14000;
+
 #[derive(Component)]
 pub struct Module {
     pub level: u8,

@@ -1,0 +1,27 @@
+use bevy::prelude::*;
+
+#[derive(Component)]
+pub struct Energy {
+    pub amount: f32,
+}
+
+#[derive(Component)]
+pub struct Wave {
+    pub strength: f32,
+    pub radius: f32,
+} // Gong
+
+#[derive(Component)]
+pub struct Field {
+    pub radius: f32,
+} // Generator
+
+#[derive(Component)]
+pub struct Bolt {
+    pub bounces: f32,
+} // Tesla
+
+#[derive(Component)]
+pub struct Beam {
+    pub angle: f32,
+} // Lazer

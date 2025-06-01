@@ -3,7 +3,7 @@ use std::f32::consts::PI;
 use bevy::prelude::*;
 use rand::prelude::*;
 
-use crate::types::hub::{Hub, spawn_hub};
+use crate::types::hub::{CentralHub, Hub, spawn_hub};
 
 const LAYER_COUNT: u8 = 9;
 const LAYER_THICKNESS: f32 = 80.0;
@@ -33,10 +33,9 @@ fn generate_hub_map(mut commands: Commands, asset_server: Res<AssetServer>) {
     let mut layer_multiplier = 1.0;
 
     // starting hub
-    commands.spawn(spawn_hub(
-        Vec2 { x: 0.0, y: 0.0 },
-        layer_multiplier,
-        texture.clone(),
+    commands.spawn((
+        spawn_hub(Vec2 { x: 0.0, y: 0.0 }, layer_multiplier, texture.clone()),
+        CentralHub,
     ));
 
     // spawn layers of hubs

@@ -53,6 +53,19 @@ Grow a network of energy dispersing hubs - each causing the others to react.
   - [ ] shop
     - [ ] displays modules at the bottom
     - [ ] enabled module type when affordable
+- [ ] pulse
+  - [ ] pulse stores reciever entity and timer
+  - [ ] disperser keeps track of pulses
+  - [ ] check pulse timer for end, then remove
+  - [ ] if no pulse, and dispersal clear, add pulse and give energy 
+- [ ] dispersal 
+  - [ ] is the effect itself, spreading energy 
+    - [ ] field: all within are updated simultaneously 
+    - [ ] beam: all within width are checked
+    - [ ] wave: all within ring are checked
+    - [ ] bolt: moves on after timer
+  - [ ] use bloom to visualize 
+
 
 ## Limitations
 

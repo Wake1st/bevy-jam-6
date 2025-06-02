@@ -27,7 +27,7 @@ Grow a network of energy dispersing hubs - each causing the others to react.
 ## Notes
 
 - [ ] crates
-  - [ ] [`bevy_egui`](https://docs.rs/bevy_egui/latest/bevy_egui/)
+  - [x] [`bevy_egui`](https://docs.rs/bevy_egui/latest/bevy_egui/)
   - [ ] [`bevy_simple_subsecond_system`](https://github.com/TheBevyFlock/bevy_simple_subsecond_system)
 - [ ] hubs
   - [ ] gains currency per pulse
@@ -75,8 +75,8 @@ Grow a network of energy dispersing hubs - each causing the others to react.
 ## Planning
 
 - [x] Day 1: planning, setup, hub network
-- [ ] Day 2: crates, module art, ui
-- [ ] Day 3: drag-n-drop
+- [ ] Day 2: crates, module art, drag-n-drop, relationships, currency, shop
+- [ ] Day 3: relationships
 - [ ] Day 4: effects, sound
 - [ ] Day 5: cicd, publish
 - [ ] Day 6: testing, tweaking

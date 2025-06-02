@@ -1,9 +1,12 @@
 use bevy::prelude::*;
+use bevy_egui::egui::emath::easing::cubic_in;
 
 use crate::types::{
     energy::Energy,
     hub::{CentralHub, Hub},
 };
+
+use super::currency::{self, Currency, CurrencyAdjusted};
 
 const RATE: f32 = 1.0;
 const AMOUNT: f32 = 1.0;
@@ -32,17 +35,20 @@ fn run_pulse(time: Res<Time>, mut pulse: ResMut<Pulse>, mut writer: EventWriter<
     if pulse.age > RATE {
         pulse.age -= RATE;
         writer.write(PulseEvent {});
-        // info!("pulse");
     }
 }
 
 fn begin_reaction(
     mut reader: EventReader<PulseEvent>,
     mut central: Query<&mut Energy, With<CentralHub>>,
+    mut adjusted: EventWriter<CurrencyAdjusted>,
 ) {
     for _ in reader.read() {
         if let Ok(mut energy) = central.single_mut() {
             energy.amount += AMOUNT;
+            adjusted.write(CurrencyAdjusted {
+                amount: AMOUNT.floor() as i128,
+            });
         }
     }
 }
@@ -56,7 +62,6 @@ fn drain_energy(time: Res<Time>, mut hubs: Query<&mut Energy, With<Hub>>) {
             if energy.amount < 0.0 {
                 energy.amount = 0.0;
             }
-            // info!("hub: energy = {:?}", energy.amount);
         }
     }
 }

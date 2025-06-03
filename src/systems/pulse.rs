@@ -2,14 +2,13 @@ use bevy::prelude::*;
 use bevy_egui::egui::emath::easing::cubic_in;
 
 use crate::types::{
-    energy::Energy,
+    energy::{Energy, START_AMOUNT},
     hub::{CentralHub, Hub},
 };
 
 use super::currency::{self, Currency, CurrencyAdjusted};
 
 const RATE: f32 = 1.0;
-const AMOUNT: f32 = 1.0;
 
 pub struct PulsePlugin;
 
@@ -45,9 +44,9 @@ fn begin_reaction(
 ) {
     for _ in reader.read() {
         if let Ok(mut energy) = central.single_mut() {
-            energy.amount += AMOUNT;
+            energy.amount += START_AMOUNT;
             adjusted.write(CurrencyAdjusted {
-                amount: AMOUNT.floor() as i128,
+                amount: START_AMOUNT.floor() as i128,
             });
         }
     }

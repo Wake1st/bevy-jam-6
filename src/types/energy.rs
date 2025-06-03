@@ -1,5 +1,7 @@
 use bevy::prelude::*;
 
+pub const START_AMOUNT: f32 = 1.;
+
 #[derive(Component, Default)]
 pub struct Energy {
     pub amount: f32,

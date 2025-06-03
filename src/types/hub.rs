@@ -1,6 +1,9 @@
 use bevy::prelude::*;
 
-use crate::dnd::drop::Dropable;
+use crate::{
+    dnd::drop::Dropable,
+    systems::{effects::PulsingMask, pulse::Pulse},
+};
 
 use super::energy::Energy;
 
@@ -22,5 +25,13 @@ pub fn spawn_hub(position: Vec2, multiplier: f32, texture: Handle<Image>) -> imp
         Hub { multiplier },
         Energy { ..default() },
         Dropable,
+    )
+}
+
+pub fn spawn_hub_mask(texture: Handle<Image>) -> impl Bundle {
+    (
+        Name::new("Mask"),
+        PulsingMask { ..default() },
+        Sprite::from_image(texture),
     )
 }

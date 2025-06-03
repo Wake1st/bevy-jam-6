@@ -3,7 +3,7 @@ use std::f32::consts::PI;
 use bevy::prelude::*;
 use rand::prelude::*;
 
-use crate::types::hub::{CentralHub, Hub, spawn_hub};
+use crate::types::hub::{CentralHub, Hub, spawn_hub, spawn_hub_mask};
 
 const LAYER_COUNT: u8 = 9;
 const LAYER_THICKNESS: f32 = 80.0;
@@ -28,14 +28,21 @@ fn regen_selected(keyboard: Res<ButtonInput<KeyCode>>) -> bool {
 }
 
 fn generate_hub_map(mut commands: Commands, asset_server: Res<AssetServer>) {
-    let texture = asset_server.load("hub.png");
+    let hub_texture = asset_server.load("hub.png");
+    let mask_texture = asset_server.load("hub_mask.png");
+
     let mut rng = rand::rng();
     let mut layer_multiplier = 1.0;
 
     // starting hub
-    commands.spawn((
-        spawn_hub(Vec2 { x: 0.0, y: 0.0 }, layer_multiplier, texture.clone()),
+    let center = commands.spawn((
+        spawn_hub(
+            Vec2 { x: 0.0, y: 0.0 },
+            layer_multiplier,
+            hub_texture.clone(),
+        ),
         CentralHub,
+        children![spawn_hub_mask(mask_texture.clone())],
     ));
 
     // spawn layers of hubs
@@ -54,7 +61,10 @@ fn generate_hub_map(mut commands: Commands, asset_server: Res<AssetServer>) {
             let x = radius * f32::cos(theta) + rng.random_range(-CART_OFFSET..CART_OFFSET);
             let y = radius * f32::sin(theta) + rng.random_range(-CART_OFFSET..CART_OFFSET);
 
-            commands.spawn(spawn_hub(Vec2 { x, y }, layer_multiplier, texture.clone()));
+            commands.spawn((
+                spawn_hub(Vec2 { x, y }, layer_multiplier, hub_texture.clone()),
+                children![spawn_hub_mask(mask_texture.clone())],
+            ));
         }
     }
 }

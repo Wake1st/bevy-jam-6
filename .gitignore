@@ -4,4 +4,4 @@
 .cargo/config.toml
 
 # no need to save aseprite files
-assets/*.aseprite
+assets/images/*.aseprite

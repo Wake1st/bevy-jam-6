@@ -28,8 +28,8 @@ fn regen_selected(keyboard: Res<ButtonInput<KeyCode>>) -> bool {
 }
 
 fn generate_hub_map(mut commands: Commands, asset_server: Res<AssetServer>) {
-    let hub_texture = asset_server.load("hub.png");
-    let mask_texture = asset_server.load("hub_mask.png");
+    let hub_texture = asset_server.load("images/hub.png");
+    let mask_texture = asset_server.load("images/hub_mask.png");
 
     let mut rng = rand::rng();
     let mut layer_multiplier = 1.0;

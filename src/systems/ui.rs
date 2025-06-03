@@ -2,7 +2,10 @@ use bevy::prelude::*;
 use bevy_cursor::CursorLocation;
 
 use crate::{
-    theme::widget,
+    theme::{
+        palette::{ENERGY_COLOR, UI_BACKGROUND},
+        widget,
+    },
     types::module::{BASE_BOUNCE, BASE_COUNT, BASE_RADIUS, BASE_STRENGTH, ModuleVarient},
 };
 
@@ -11,16 +14,19 @@ use super::{
     shop::Purchased,
 };
 
+const UI_BASE: Vec2 = Vec2::new(1200., 300.);
 const UI_LAYER: f32 = 0.5;
 const UI_BOTTOM: f32 = -280.;
 const UI_GAP: f32 = 32.;
 const UI_LENGTH: f32 = 128.;
 
+const COUNTER_SIZE: Vec2 = Vec2::new(60., 160.);
+
 pub struct UIPlugin;
 
 impl Plugin for UIPlugin {
     fn build(&self, app: &mut App) {
-        app.add_systems(Startup, spawn_main_menu)
+        app.add_systems(Startup, spawn_shop)
             .add_systems(Update, check_button_selected);
     }
 }
@@ -28,35 +34,54 @@ impl Plugin for UIPlugin {
 #[derive(Component, Debug)]
 pub struct ShopButton(pub ModuleVarient);
 
-fn spawn_main_menu(mut commands: Commands, asset_server: Res<AssetServer>) {
-    commands
-        .spawn(spawn_shop_button(
-            Vec2::new((UI_GAP + UI_LENGTH) * -1.5, UI_BOTTOM),
-            asset_server.load("gong.png"),
-            ModuleVarient::Gong(BASE_STRENGTH),
+fn spawn_shop(mut commands: Commands, asset_server: Res<AssetServer>) {
+    let base = commands
+        .spawn((
+            Name::new("Shop Background"),
+            Sprite::from_color(UI_BACKGROUND, UI_BASE),
         ))
-        .observe(make_purchase);
+        .id();
+
     commands
-        .spawn(spawn_shop_button(
-            Vec2::new((UI_GAP + UI_LENGTH) * -0.5, UI_BOTTOM),
-            asset_server.load("generator.png"),
-            ModuleVarient::Generator(BASE_RADIUS),
+        .spawn((
+            spawn_shop_button(
+                Vec2::new((UI_GAP + UI_LENGTH) * -1.5, UI_BOTTOM),
+                asset_server.load("images/gong.png"),
+                ModuleVarient::Gong(BASE_STRENGTH),
+            ),
+            ChildOf(base),
         ))
-        .observe(make_purchase);
+        .observe(shop_button_selected);
     commands
-        .spawn(spawn_shop_button(
-            Vec2::new((UI_GAP + UI_LENGTH) * 0.5, UI_BOTTOM),
-            asset_server.load("tesla.png"),
-            ModuleVarient::Tesla(BASE_BOUNCE),
+        .spawn((
+            spawn_shop_button(
+                Vec2::new((UI_GAP + UI_LENGTH) * -0.5, UI_BOTTOM),
+                asset_server.load("images/generator.png"),
+                ModuleVarient::Generator(BASE_RADIUS),
+            ),
+            ChildOf(base),
         ))
-        .observe(make_purchase);
+        .observe(shop_button_selected);
     commands
-        .spawn(spawn_shop_button(
-            Vec2::new((UI_GAP + UI_LENGTH) * 1.5, UI_BOTTOM),
-            asset_server.load("lazer.png"),
-            ModuleVarient::Lazer(BASE_COUNT),
+        .spawn((
+            spawn_shop_button(
+                Vec2::new((UI_GAP + UI_LENGTH) * 0.5, UI_BOTTOM),
+                asset_server.load("images/tesla.png"),
+                ModuleVarient::Tesla(BASE_BOUNCE),
+            ),
+            ChildOf(base),
         ))
-        .observe(make_purchase);
+        .observe(shop_button_selected);
+    commands
+        .spawn((
+            spawn_shop_button(
+                Vec2::new((UI_GAP + UI_LENGTH) * 1.5, UI_BOTTOM),
+                asset_server.load("images/lazer.png"),
+                ModuleVarient::Lazer(BASE_COUNT),
+            ),
+            ChildOf(base),
+        ))
+        .observe(shop_button_selected);
 }
 
 fn spawn_shop_button(
@@ -105,7 +130,7 @@ fn check_button_selected(
     }
 }
 
-fn make_purchase(
+fn shop_button_selected(
     trigger: Trigger<ShopButtonSelected>,
     buttons: Query<&ShopButton>,
     currency: Res<Currency>,
@@ -128,5 +153,35 @@ fn make_purchase(
             varient: button.0.clone(),
         });
         adjusted.write(CurrencyAdjusted { amount: -cost });
+    }
+}
+
+#[derive(Component, Debug)]
+pub struct CurrencyText;
+
+fn spawn_currency_counter(mut commands: Commands, asset_server: Res<AssetServer>) {
+    commands.spawn((
+        Name::new("Currency Background"),
+        Sprite::from_color(UI_BACKGROUND, COUNTER_SIZE),
+        children![(
+            Name::new("Currency Text"),
+            CurrencyText,
+            Text::new("Currency: 0"),
+            TextFont {
+                font: asset_server.load("fonts/SixtyfourConvergence-Regular.ttf"),
+                font_size: 48.0,
+                ..default()
+            },
+            TextColor(ENERGY_COLOR),
+        )],
+    ));
+}
+
+fn text_update_system(
+    mut query: Query<&mut TextSpan, With<CurrencyText>>,
+    currency: Res<Currency>,
+) {
+    for mut span in &mut query {
+        **span = format!("Currency: {:?}", currency.0);
     }
 }

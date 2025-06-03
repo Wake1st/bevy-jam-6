@@ -32,19 +32,19 @@ fn purchase(
 
         match e.varient {
             ModuleVarient::Gong(_) => {
-                commands.spawn(spawn_gong(position, asset_server.load("gong.png")));
+                commands.spawn(spawn_gong(position, asset_server.load("images/gong.png")));
             }
             ModuleVarient::Generator(_) => {
                 commands.spawn(spawn_generator(
                     position,
-                    asset_server.load("generator.png"),
+                    asset_server.load("images/generator.png"),
                 ));
             }
             ModuleVarient::Tesla(_) => {
-                commands.spawn(spawn_tesla(position, asset_server.load("tesla.png")));
+                commands.spawn(spawn_tesla(position, asset_server.load("images/tesla.png")));
             }
             ModuleVarient::Lazer(_) => {
-                commands.spawn(spawn_lazer(position, asset_server.load("lazer.png")));
+                commands.spawn(spawn_lazer(position, asset_server.load("images/lazer.png")));
             }
         }
 

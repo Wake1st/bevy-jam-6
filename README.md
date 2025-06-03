@@ -75,9 +75,9 @@ Grow a network of energy dispersing hubs - each causing the others to react.
 ## Planning
 
 - [x] Day 1: planning, setup, hub network
-- [ ] Day 2: crates, module art, drag-n-drop, relationships, currency, shop
-- [ ] Day 3: relationships
-- [ ] Day 4: effects, sound
+- [x] Day 2: crates, module art, drag-n-drop, relationships, currency, shop
+- [x] Day 3: pulse masking, currency display
+- [ ] Day 4: energy dispersal, effects, sound
 - [ ] Day 5: cicd, publish
 - [ ] Day 6: testing, tweaking
 - [ ] Day 7: ship

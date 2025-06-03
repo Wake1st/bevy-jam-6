@@ -20,6 +20,7 @@ fn main() -> AppExit {
     App::new()
         .add_plugins((
             DefaultPlugins
+                .set(ImagePlugin::default_nearest())
                 .set(AssetPlugin {
                     // Wasm builds will check for meta files (that don't exist) if this isn't set.
                     // This causes errors and even panics on web build on itch.
@@ -65,7 +66,11 @@ pub struct MainCamera;
 
 fn setup(mut commands: Commands) {
     // starting node
-    commands.spawn((Camera2d::default(), MainCamera));
+    commands.spawn((
+        Camera2d::default(),
+        MainCamera,
+        Transform::from_xyz(0., -56., 0.),
+    ));
 }
 
 fn inspector_ui(world: &mut World) {

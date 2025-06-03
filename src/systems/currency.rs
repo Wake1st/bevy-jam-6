@@ -27,6 +27,5 @@ pub struct CurrencyAdjusted {
 fn adjust_currency(mut event: EventReader<CurrencyAdjusted>, mut currency: ResMut<Currency>) {
     for e in event.read() {
         currency.0 += e.amount;
-        info!(currency = ?currency.0);
     }
 }

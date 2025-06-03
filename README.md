@@ -16,12 +16,15 @@ Grow a network of energy dispersing hubs - each causing the others to react.
 ## User Stories
 
 - [x] see hubs
-- [ ] see their currency go up
+- [x] see their currency go up
+- [x] grab-buy modules from shop
+- [x] drag-n-drop modules onto hubs   (left-click)
 - [ ] see module effects
-- [ ] grab-buy modules from shop
+  - [x] wave
+  - [ ] field
+  - [ ] bolt
+  - [ ] beam
 - [ ] move around the map and zoom
-- [ ] buy modules
-- [ ] drag-n-drop modules onto hubs   (left-click)
 - [ ] boost module by selecting       (right-click)
 
 ## Notes
@@ -30,29 +33,29 @@ Grow a network of energy dispersing hubs - each causing the others to react.
   - [x] [`bevy_egui`](https://docs.rs/bevy_egui/latest/bevy_egui/)
   - [ ] [`bevy_simple_subsecond_system`](https://github.com/TheBevyFlock/bevy_simple_subsecond_system)
 - [ ] hubs
-  - [ ] gains currency per pulse
+  - [x] gains currency per pulse
   - [ ] hubs multiply charge
-    - [ ] the further out the hub, the higher the multiplier
-    - [ ] multiplier result is rounded down
-  - [ ] hubs loose charge over time
-  - [ ] hubs gain charge from pulsing effect
-  - [ ] hubs can fit one module
+    - [x] the further out the hub, the higher the multiplier
+    - [x] multiplier result is rounded down
+  - [x] hubs loose charge over time
+  - [x] hubs gain charge from pulsing effect
+  - [x] hubs can fit one module
   - ~~[ ] connected via graph network~~
 - [ ] modules
   - [ ] different types of energy dispersal
-    - [ ] gong:       diamond   | pulses outward a diminishing ring of energy
+    - [x] gong:       diamond   | pulses outward a diminishing ring of energy
     - [ ] generator:  hexagon   | pulsing field of evenly distributed energy
     - [ ] cannon:     pentagon  | slowly spinning beam of energy
     - [ ] tesla:      triangle  | randomly dispersed jolt of energy
     - ~~[ ] pump:      surges energy along the network edges~~
-  - [ ] any module can fit to any hub
-  - [ ] modules use immediate energy available
+  - [x] any module can fit to any hub
+  - [x] modules use immediate energy available
   - [ ] modules can be boosted for currency (boosting multiplies energy)
 - [ ] UI
-  - [ ] currency
-  - [ ] shop
-    - [ ] displays modules at the bottom
-    - [ ] enabled module type when affordable
+  - [x] currency
+  - [x] shop
+    - [x] displays modules at the bottom
+    - [x] enabled module type when affordable
 - [ ] pulse
   - [ ] pulse stores reciever entity and timer
   - [ ] disperser keeps track of pulses
@@ -60,11 +63,11 @@ Grow a network of energy dispersing hubs - each causing the others to react.
   - [ ] if no pulse, and dispersal clear, add pulse and give energy
 - [ ] dispersal
   - [ ] is the effect itself, spreading energy
+    - [x] wave: all within ring are checked
     - [ ] field: all within are updated simultaneously
     - [ ] beam: all within width are checked
-    - [ ] wave: all within ring are checked
     - [ ] bolt: moves on after timer
-  - [ ] use bloom to visualize
+  - [x] use bloom to visualize
 
 ## Limitations
 
@@ -82,3 +85,7 @@ Grow a network of energy dispersing hubs - each causing the others to react.
 - [ ] Day 6: testing, tweaking
 - [ ] Day 7: ship
 - [ ] Day 8: SHIP!
+
+## Issues
+
+- [ ] hub mask does not blink if holding module

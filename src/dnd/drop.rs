@@ -3,7 +3,10 @@ use bevy_cursor::CursorLocation;
 
 use crate::{
     AppSet,
-    systems::currency::{CurrencyAdjusted, PRICE_GENERATOR, PRICE_GONG, PRICE_LAZER, PRICE_TESLA},
+    systems::{
+        currency::{CurrencyAdjusted, PRICE_GENERATOR, PRICE_GONG, PRICE_LAZER, PRICE_TESLA},
+        relationships::ModuleAttached,
+    },
     types::module::{Module, ModuleVarient},
 };
 
@@ -23,10 +26,11 @@ pub struct Dropable;
 fn drop(
     buttons: Res<ButtonInput<MouseButton>>,
     mut dragging: Query<(Entity, &mut Transform), With<Dragging>>,
-    dropables: Query<&GlobalTransform, With<Dropable>>,
+    dropables: Query<(Entity, &GlobalTransform), With<Dropable>>,
     cursor: Res<CursorLocation>,
     mut commands: Commands,
     mut released: EventWriter<Released>,
+    mut attached: EventWriter<ModuleAttached>,
 ) {
     // Only end on mouse up
     if !buttons.just_released(MouseButton::Left) {
@@ -39,7 +43,7 @@ fn drop(
         let mut dropped: bool = false;
 
         // Check for possible collision
-        for dropable_transform in dropables.iter() {
+        for (dropable_entity, dropable_transform) in dropables.iter() {
             let dropable_position = dropable_transform.translation().xy();
             let rect = Rect::from_center_size(dropable_position, DROPABLE_SIZE);
 
@@ -54,6 +58,12 @@ fn drop(
 
                 // no longer dragging
                 commands.entity(dragging_entity).remove::<Dragging>();
+
+                // connect the two
+                attached.write(ModuleAttached {
+                    hub: dropable_entity,
+                    module: dragging_entity,
+                });
 
                 // exit to ensure this process happens ONCE
                 dropped = true;

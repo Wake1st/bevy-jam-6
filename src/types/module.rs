@@ -2,10 +2,10 @@ use bevy::prelude::*;
 
 use crate::dnd::drag::{Draggable, Dragging};
 
-pub const BASE_STRENGTH: f32 = 12.0;
+pub const BASE_STRENGTH: f32 = 8.0;
 pub const BASE_RADIUS: f32 = 40.0;
 pub const BASE_BOUNCE: u8 = 1;
-pub const BASE_COUNT: u8 = 1;
+pub const BASE_LENGTH: f32 = 1.0;
 
 const MODULE_LAYER: f32 = 1.0;
 
@@ -21,31 +21,31 @@ pub enum ModuleVarient {
     Gong(f32),
     Generator(f32),
     Tesla(u8),
-    Lazer(u8),
+    Lazer(f32),
 }
 
-// #[derive(Reflect, Component, Default, Debug)]
-// #[reflect(Component)]
-// pub struct Gong {
-//     pub strength: f32, // how long the wave lasts
+#[derive(Reflect, Component, Default, Debug)]
+#[reflect(Component)]
+pub struct Gong;
+// pub strength: f32, // how long the wave lasts
 // }
 
-// #[derive(Reflect, Component, Default, Debug)]
-// #[reflect(Component)]
-// pub struct Generator {
-//     pub radius: f32, // how large the field
+#[derive(Reflect, Component, Default, Debug)]
+#[reflect(Component)]
+pub struct Generator;
+// pub radius: f32, // how large the field
 // }
 
-// #[derive(Reflect, Component, Default, Debug)]
-// #[reflect(Component)]
-// pub struct Tesla {
-//     pub bounces: u8, // how many times the bolt ricochets
+#[derive(Reflect, Component, Default, Debug)]
+#[reflect(Component)]
+pub struct Tesla;
+// pub bounces: u8, // how many times the bolt ricochets
 // }
 
-// #[derive(Reflect, Component, Default, Debug)]
-// #[reflect(Component)]
-// pub struct Lazer {
-//     pub count: u8, // how many beams
+#[derive(Reflect, Component, Default, Debug)]
+#[reflect(Component)]
+pub struct Lazer;
+// pub count: u8, // how many beams
 // }
 
 pub fn spawn_gong(position: Vec2, texture: Handle<Image>) -> impl Bundle {
@@ -58,6 +58,7 @@ pub fn spawn_gong(position: Vec2, texture: Handle<Image>) -> impl Bundle {
             multiplier: 1.0,
             varient: ModuleVarient::Gong(BASE_STRENGTH),
         },
+        Gong,
         Draggable,
         Dragging,
     )
@@ -73,6 +74,7 @@ pub fn spawn_generator(position: Vec2, texture: Handle<Image>) -> impl Bundle {
             multiplier: 1.0,
             varient: ModuleVarient::Generator(BASE_RADIUS),
         },
+        Generator,
         Draggable,
         Dragging,
     )
@@ -86,8 +88,9 @@ pub fn spawn_lazer(position: Vec2, texture: Handle<Image>) -> impl Bundle {
         Module {
             level: 1,
             multiplier: 1.0,
-            varient: ModuleVarient::Lazer(BASE_COUNT),
+            varient: ModuleVarient::Lazer(BASE_LENGTH),
         },
+        Lazer,
         Draggable,
         Dragging,
     )
@@ -103,6 +106,7 @@ pub fn spawn_tesla(position: Vec2, texture: Handle<Image>) -> impl Bundle {
             multiplier: 1.0,
             varient: ModuleVarient::Tesla(BASE_BOUNCE),
         },
+        Tesla,
         Draggable,
         Dragging,
     )

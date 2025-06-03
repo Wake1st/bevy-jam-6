@@ -14,39 +14,54 @@ pub struct PulsePlugin;
 
 impl Plugin for PulsePlugin {
     fn build(&self, app: &mut App) {
-        app.init_resource::<Pulse>();
+        app.init_resource::<CentralPulse>();
         app.add_event::<PulseEvent>();
-        app.add_systems(Update, (run_pulse, begin_reaction, drain_energy));
+        app.add_systems(Update, (run_pulse, read_pulse, drain_energy));
     }
 }
 
 #[derive(Resource, Default)]
-pub struct Pulse {
+pub struct CentralPulse {
     pub age: f32,
 }
 
 #[derive(Event)]
-pub struct PulseEvent;
+pub struct PulseEvent {
+    pub hub: Entity,
+    pub energy: f32,
+}
 
-fn run_pulse(time: Res<Time>, mut pulse: ResMut<Pulse>, mut writer: EventWriter<PulseEvent>) {
+fn run_pulse(
+    time: Res<Time>,
+    mut pulse: ResMut<CentralPulse>,
+    hub: Query<Entity, With<CentralHub>>,
+    mut writer: EventWriter<PulseEvent>,
+) {
+    let Ok(entity) = hub.single() else {
+        return;
+    };
+
     pulse.age += time.delta_secs();
 
     if pulse.age > RATE {
         pulse.age -= RATE;
-        writer.write(PulseEvent {});
+        writer.write(PulseEvent {
+            hub: entity,
+            energy: START_AMOUNT,
+        });
     }
 }
 
-fn begin_reaction(
+fn read_pulse(
     mut reader: EventReader<PulseEvent>,
-    mut central: Query<&mut Energy, With<CentralHub>>,
+    mut hubs: Query<&mut Energy, With<Hub>>,
     mut adjusted: EventWriter<CurrencyAdjusted>,
 ) {
-    for _ in reader.read() {
-        if let Ok(mut energy) = central.single_mut() {
-            energy.amount += START_AMOUNT;
+    for e in reader.read() {
+        if let Ok(mut energy) = hubs.get_mut(e.hub) {
+            energy.amount += e.energy;
             adjusted.write(CurrencyAdjusted {
-                amount: START_AMOUNT.floor() as i128,
+                amount: e.energy.floor() as i128,
             });
         }
     }

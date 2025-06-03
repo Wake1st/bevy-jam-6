@@ -4,11 +4,8 @@ use bevy::{prelude::*, text::TextSpanAccess};
 use bevy_cursor::CursorLocation;
 
 use crate::{
-    theme::{
-        palette::{ENERGY_COLOR, UI_BACKGROUND},
-        widget,
-    },
-    types::module::{BASE_BOUNCE, BASE_COUNT, BASE_RADIUS, BASE_STRENGTH, ModuleVarient},
+    theme::palette::{ENERGY_COLOR, UI_BACKGROUND},
+    types::module::{BASE_BOUNCE, BASE_LENGTH, BASE_RADIUS, BASE_STRENGTH, ModuleVarient},
 };
 
 use super::{
@@ -118,7 +115,7 @@ fn spawn_shop(mut commands: Commands, asset_server: Res<AssetServer>) {
             spawn_shop_button(
                 Vec2::new(UI_X_OFFSET + (UI_GAP + UI_LENGTH) * 1.5, -8.),
                 asset_server.load("images/lazer.png"),
-                ModuleVarient::Lazer(BASE_COUNT),
+                ModuleVarient::Lazer(BASE_LENGTH),
                 asset_server.load("fonts/SixtyfourConvergence-Regular.ttf"),
                 PRICE_LAZER,
             ),

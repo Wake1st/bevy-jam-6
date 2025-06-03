@@ -1,9 +1,6 @@
 use bevy::prelude::*;
 
-use crate::{
-    dnd::drop::Dropable,
-    systems::{effects::PulsingMask, pulse::Pulse},
-};
+use crate::{dnd::drop::Dropable, systems::effects::PulsingMask};
 
 use super::energy::Energy;
 

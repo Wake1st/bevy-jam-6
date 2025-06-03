@@ -1,5 +1,9 @@
 use bevy::{
     asset::AssetMetaCheck,
+    core_pipeline::{
+        bloom::{Bloom, BloomPrefilter},
+        tonemapping::{DebandDither, Tonemapping},
+    },
     prelude::*,
     window::{PrimaryWindow, WindowResolution},
 };
@@ -67,7 +71,25 @@ pub struct MainCamera;
 fn setup(mut commands: Commands) {
     // starting node
     commands.spawn((
-        Camera2d::default(),
+        Camera2d,
+        Camera {
+            hdr: true,
+            ..default()
+        },
+        Tonemapping::AgX,
+        Bloom {
+            intensity: 0.4,
+            low_frequency_boost: 0.6,
+            low_frequency_boost_curvature: 1.0,
+            high_pass_frequency: 0.2,
+            prefilter: BloomPrefilter {
+                threshold: 0.2,
+                threshold_softness: 0.1,
+            },
+            max_mip_dimension: 420,
+            ..default()
+        },
+        DebandDither::Enabled,
         MainCamera,
         Transform::from_xyz(0., -56., 0.),
     ));

@@ -1,7 +1,7 @@
 use bevy::prelude::*;
 use bevy_cursor::CursorLocation;
 
-use crate::AppSet;
+use crate::{AppSet, systems::relationships::ModuleRemoved};
 
 const DRAGGABLE_SIZE: Vec2 = Vec2::splat(32.0);
 
@@ -27,6 +27,7 @@ fn start_drag(
     cursor: Res<CursorLocation>,
     buttons: Res<ButtonInput<MouseButton>>,
     mut commands: Commands,
+    mut removed: EventWriter<ModuleRemoved>,
 ) {
     // Only start on mouse down
     if !buttons.just_pressed(MouseButton::Left) {
@@ -46,6 +47,7 @@ fn start_drag(
             if rect.contains(position) {
                 // add dragging component to the word
                 commands.entity(entity).insert(Dragging);
+                removed.write(ModuleRemoved { module: entity });
             }
         }
     }

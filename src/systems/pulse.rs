@@ -8,7 +8,7 @@ use crate::types::{
 
 use super::currency::{self, Currency, CurrencyAdjusted};
 
-const RATE: f32 = 1.0;
+pub const PULSE_RATE: f32 = 1.0;
 
 pub struct PulsePlugin;
 
@@ -43,8 +43,8 @@ fn run_pulse(
 
     pulse.age += time.delta_secs();
 
-    if pulse.age > RATE {
-        pulse.age -= RATE;
+    if pulse.age > PULSE_RATE {
+        pulse.age -= PULSE_RATE;
         writer.write(PulseEvent {
             hub: entity,
             energy: START_AMOUNT,
@@ -54,16 +54,19 @@ fn run_pulse(
 
 fn read_pulse(
     mut reader: EventReader<PulseEvent>,
-    mut hubs: Query<&mut Energy, With<Hub>>,
+    mut hubs: Query<(&mut Energy, Hub)>,
     mut adjusted: EventWriter<CurrencyAdjusted>,
 ) {
     for e in reader.read() {
-        if let Ok(mut energy) = hubs.get_mut(e.hub) {
-            energy.amount += e.energy;
-            adjusted.write(CurrencyAdjusted {
-                amount: e.energy.floor() as i128,
-            });
-        }
+        let Ok((mut energy, hub)) = hubs.get_mut(e.hub) else {
+            continue;
+        };
+
+        let added: f32 = e.energy * hub.multiplier;
+        energy.amount += added;
+        adjusted.write(CurrencyAdjusted {
+            amount: added.floor() as i128,
+        });
     }
 }
 

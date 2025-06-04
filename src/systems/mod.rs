@@ -7,8 +7,11 @@ use pulse::PulsePlugin;
 use shop::ShopPlugin;
 use ui::UIPlugin;
 
-use crate::systems::{dispersal::DispersalPlugin, relationships::RelationshipPlugin};
+use crate::systems::{
+    collisions::CollisionPlugin, dispersal::DispersalPlugin, relationships::RelationshipPlugin,
+};
 
+pub mod collisions;
 pub mod currency;
 pub mod dispersal;
 pub mod effects;
@@ -23,14 +26,12 @@ pub struct SystemsPlugin;
 impl Plugin for SystemsPlugin {
     fn build(&self, app: &mut App) {
         app.add_plugins((
-            EffectsPlugin,
             NetworkPlugin,
             PulsePlugin,
-            CurrencyPlugin,
-            ShopPlugin,
-            UIPlugin,
             RelationshipPlugin,
             DispersalPlugin,
-        ));
+            CollisionPlugin,
+        ))
+        .add_plugins((CurrencyPlugin, EffectsPlugin, ShopPlugin, UIPlugin));
     }
 }

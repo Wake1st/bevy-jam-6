@@ -56,6 +56,7 @@ fn create_wave(
                     Wave {
                         strength: strength * e.energy,
                         radius: WAVE_RADIUS,
+                        origin: position.extend(0.0),
                     },
                 ));
             }

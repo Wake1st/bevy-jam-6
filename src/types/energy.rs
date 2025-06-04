@@ -19,6 +19,7 @@ pub struct Energy {
 pub struct Wave {
     pub strength: f32,
     pub radius: f32,
+    pub origin: Vec3,
 } // Gong
 
 #[derive(Component)]

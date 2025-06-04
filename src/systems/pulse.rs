@@ -54,10 +54,11 @@ fn run_pulse(
 
 fn read_pulse(
     mut reader: EventReader<PulseEvent>,
-    mut hubs: Query<(&mut Energy, Hub)>,
+    mut hubs: Query<(&mut Energy, &Hub)>,
     mut adjusted: EventWriter<CurrencyAdjusted>,
 ) {
     for e in reader.read() {
+        info!("pulse for: {:?}", e.hub);
         let Ok((mut energy, hub)) = hubs.get_mut(e.hub) else {
             continue;
         };

@@ -56,11 +56,10 @@ Grow a network of energy dispersing hubs - each causing the others to react.
   - [x] shop
     - [x] displays modules at the bottom
     - [x] enabled module type when affordable
-- [ ] pulse
-  - [ ] pulse stores reciever entity and timer
-  - [ ] disperser keeps track of pulses
-  - [ ] check pulse timer for end, then remove
-  - [ ] if no pulse, and dispersal clear, add pulse and give energy
+- [x] pulse
+  - [x] hubs keep track of collisions
+  - [x] check pulse timer for end, then remove
+  - [x] if no pulse, and dispersal clear, add pulse and give energy
 - [ ] dispersal
   - [ ] is the effect itself, spreading energy
     - [x] wave: all within ring are checked
@@ -80,9 +79,9 @@ Grow a network of energy dispersing hubs - each causing the others to react.
 - [x] Day 1: planning, setup, hub network
 - [x] Day 2: crates, module art, drag-n-drop, relationships, currency, shop
 - [x] Day 3: pulse masking, currency display
-- [ ] Day 4: energy dispersal
-- [ ] Day 5: effects, sound
-- [ ] Day 6: testing, tweaking
+- [x] Day 4: energy dispersal, effects
+- [ ] Day 5: energy dispersal
+- [ ] Day 6: testing, tweaking, sound
 - [ ] Day 7: ship
 - [ ] Day 8: SHIP!
 

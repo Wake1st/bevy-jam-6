@@ -14,7 +14,7 @@ use super::{
 };
 
 const UI_BASE: Vec2 = Vec2::new(1400., 106.);
-const UI_LAYER: f32 = 0.5;
+const UI_LAYER: f32 = 0.9;
 const UI_BOTTOM: f32 = -363.;
 const UI_X_OFFSET: f32 = 460.;
 const UI_GAP: f32 = 16.;

@@ -2,7 +2,7 @@ use bevy::prelude::*;
 
 use crate::dnd::drag::{Draggable, Dragging};
 
-pub const BASE_STRENGTH: f32 = 8.0;
+pub const BASE_STRENGTH: f32 = 10.0;
 pub const BASE_RADIUS: f32 = 40.0;
 pub const BASE_BOUNCE: u8 = 1;
 pub const BASE_LENGTH: f32 = 1.0;

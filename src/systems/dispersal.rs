@@ -13,8 +13,8 @@ use crate::{
     },
 };
 
-const WAVE_SPEED: f32 = 6.;
-const STRENGTH_TO_RADIUS: f32 = 0.004;
+const WAVE_SPEED: f32 = 64.;
+const STRENGTH_TO_RADIUS: f32 = 0.1;
 
 pub struct DispersalPlugin;
 
@@ -26,14 +26,14 @@ impl Plugin for DispersalPlugin {
 
 fn create_wave(
     mut pulse: EventReader<PulseEvent>,
-    hubs: Query<&HubHolder, With<Hub>>,
+    hubs: Query<(Entity, &HubHolder), With<Hub>>,
     modules: Query<(&Module, &GlobalTransform), With<Gong>>,
     mut commands: Commands,
     mut meshes: ResMut<Assets<Mesh>>,
     mut materials: ResMut<Assets<ColorMaterial>>,
 ) {
     for e in pulse.read() {
-        let Ok(holder) = hubs.get(e.hub) else {
+        let Ok((hub_entity, holder)) = hubs.get(e.hub) else {
             continue;
         };
 
@@ -57,6 +57,7 @@ fn create_wave(
                         strength: strength * e.energy,
                         radius: WAVE_RADIUS,
                         origin: position.extend(0.0),
+                        source: hub_entity,
                     },
                 ));
             }
@@ -71,13 +72,14 @@ fn spread_wave(time: Res<Time>, mut waves: Query<(&mut Transform, &mut Wave)>) {
     for (mut transform, mut wave) in waves.iter_mut() {
         let growth = delta * WAVE_SPEED;
 
-        // make bigger
-        transform.scale.x += growth;
-        transform.scale.y += growth;
-
         // make weaker
         wave.radius += growth;
-        wave.strength -= STRENGTH_TO_RADIUS * wave.radius;
+        wave.strength -= STRENGTH_TO_RADIUS * growth;
+
+        // make bigger
+        let ratio = wave.radius / WAVE_RADIUS;
+        transform.scale.x = ratio;
+        transform.scale.y = ratio;
     }
 }
 

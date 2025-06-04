@@ -3,9 +3,12 @@ use std::f32::consts::PI;
 use bevy::prelude::*;
 use rand::prelude::*;
 
-use crate::types::hub::{CentralHub, Hub, spawn_hub, spawn_hub_mask};
+use crate::{
+    systems::pulse::Heartbeat,
+    types::hub::{CentralHub, Hub, spawn_hub, spawn_hub_mask},
+};
 
-const LAYER_COUNT: u8 = 2;
+const LAYER_COUNT: u8 = 6;
 const LAYER_THICKNESS: f32 = 80.0;
 const ANGLE_OFFSET: f32 = 0.3;
 const CART_OFFSET: f32 = 12.0;
@@ -63,6 +66,7 @@ fn generate_hub_map(mut commands: Commands, asset_server: Res<AssetServer>) {
 
             commands.spawn((
                 spawn_hub(Vec2 { x, y }, layer_multiplier, hub_texture.clone()),
+                Heartbeat { ..default() },
                 children![spawn_hub_mask(mask_texture.clone())],
             ));
         }

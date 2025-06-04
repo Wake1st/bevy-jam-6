@@ -3,12 +3,12 @@ use bevy::prelude::*;
 pub const START_AMOUNT: f32 = 1.;
 
 pub const WAVE_RADIUS: f32 = 12.;
-pub const WAVE_THICCNESS: f32 = 0.4;
+pub const WAVE_THICCNESS: f32 = 0.6;
 pub const FIELD_RADIUS_RATIO: f32 = 6.;
 pub const BOLT_RADIUS: f32 = 24.;
 pub const BEAM_THICCNESS: f32 = 16.;
 
-const ENERGY_LAYER: f32 = 1.1;
+const ENERGY_LAYER: f32 = 0.4;
 
 #[derive(Component, Default)]
 pub struct Energy {
@@ -20,6 +20,7 @@ pub struct Wave {
     pub strength: f32,
     pub radius: f32,
     pub origin: Vec3,
+    pub source: Entity,
 } // Gong
 
 #[derive(Component)]

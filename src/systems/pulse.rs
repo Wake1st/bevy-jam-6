@@ -1,9 +1,12 @@
 use bevy::prelude::*;
 use bevy_egui::egui::emath::easing::cubic_in;
 
-use crate::types::{
-    energy::{Energy, START_AMOUNT},
-    hub::{CentralHub, Hub},
+use crate::{
+    systems::collisions::CollisionEvent,
+    types::{
+        energy::{Energy, START_AMOUNT},
+        hub::{CentralHub, Hub},
+    },
 };
 
 use super::currency::{self, Currency, CurrencyAdjusted};
@@ -16,7 +19,7 @@ impl Plugin for PulsePlugin {
     fn build(&self, app: &mut App) {
         app.init_resource::<CentralPulse>();
         app.add_event::<PulseEvent>();
-        app.add_systems(Update, (run_pulse, read_pulse, drain_energy));
+        app.add_systems(Update, (run_pulse, read_pulse, run_heartbeat, drain_energy));
     }
 }
 
@@ -25,7 +28,12 @@ pub struct CentralPulse {
     pub age: f32,
 }
 
-#[derive(Event)]
+#[derive(Component, Default, Debug)]
+pub struct Heartbeat {
+    pub age: f32,
+}
+
+#[derive(Event, Debug)]
 pub struct PulseEvent {
     pub hub: Entity,
     pub energy: f32,
@@ -35,7 +43,8 @@ fn run_pulse(
     time: Res<Time>,
     mut pulse: ResMut<CentralPulse>,
     hub: Query<Entity, With<CentralHub>>,
-    mut writer: EventWriter<PulseEvent>,
+    mut pulsed: EventWriter<PulseEvent>,
+    mut faux_collided: EventWriter<CollisionEvent>,
 ) {
     let Ok(entity) = hub.single() else {
         return;
@@ -45,7 +54,11 @@ fn run_pulse(
 
     if pulse.age > PULSE_RATE {
         pulse.age -= PULSE_RATE;
-        writer.write(PulseEvent {
+        pulsed.write(PulseEvent {
+            hub: entity,
+            energy: START_AMOUNT,
+        });
+        faux_collided.write(CollisionEvent {
             hub: entity,
             energy: START_AMOUNT,
         });
@@ -53,12 +66,11 @@ fn run_pulse(
 }
 
 fn read_pulse(
-    mut reader: EventReader<PulseEvent>,
+    mut reader: EventReader<CollisionEvent>,
     mut hubs: Query<(&mut Energy, &Hub)>,
     mut adjusted: EventWriter<CurrencyAdjusted>,
 ) {
     for e in reader.read() {
-        info!("pulse for: {:?}", e.hub);
         let Ok((mut energy, hub)) = hubs.get_mut(e.hub) else {
             continue;
         };
@@ -68,6 +80,24 @@ fn read_pulse(
         adjusted.write(CurrencyAdjusted {
             amount: added.floor() as i128,
         });
+    }
+}
+
+fn run_heartbeat(
+    time: Res<Time>,
+    mut hubs: Query<(Entity, &Energy, &mut Heartbeat), With<Hub>>,
+    mut writer: EventWriter<PulseEvent>,
+) {
+    for (entity, energy, mut heartbeat) in hubs.iter_mut() {
+        // beat the heart
+        heartbeat.age += time.delta_secs();
+        if heartbeat.age > PULSE_RATE {
+            heartbeat.age -= PULSE_RATE;
+            writer.write(PulseEvent {
+                hub: entity,
+                energy: energy.amount,
+            });
+        }
     }
 }
 

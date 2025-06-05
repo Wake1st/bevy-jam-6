@@ -10,6 +10,7 @@ use crate::{
 
 const LAYER_COUNT: u8 = 8;
 const LAYER_THICKNESS: f32 = 80.0;
+const LAYER_MULTIPLIER: f32 = 0.38;
 const ANGLE_OFFSET: f32 = 0.3;
 const CART_OFFSET: f32 = 12.0;
 
@@ -51,7 +52,7 @@ fn generate_hub_map(mut commands: Commands, asset_server: Res<AssetServer>) {
 
     // spawn layers of hubs
     for l in 1..LAYER_COUNT {
-        layer_multiplier *= l as f32 * 0.2;
+        layer_multiplier *= l as f32 * LAYER_MULTIPLIER;
 
         let radius: f32 = LAYER_THICKNESS * rng.random_range(l..(l + 1)) as f32;
         let hubs_per_layer: u8 = rng.random_range(l..((l + 1) * 2));

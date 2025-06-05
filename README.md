@@ -19,13 +19,13 @@ Grow a network of energy dispersing hubs - each causing the others to react.
 - [x] see their currency go up
 - [x] grab-buy modules from shop
 - [x] drag-n-drop modules onto hubs   (left-click)
+- [x] boost module by selecting       (right-click)
 - [ ] see module effects
   - [x] wave
   - [ ] field
   - [ ] bolt
   - [ ] beam
 - [ ] move around the map and zoom
-- [ ] boost module by selecting       (right-click)
 
 ## Notes
 
@@ -34,7 +34,7 @@ Grow a network of energy dispersing hubs - each causing the others to react.
   - [ ] [`bevy_simple_subsecond_system`](https://github.com/TheBevyFlock/bevy_simple_subsecond_system)
 - [ ] hubs
   - [x] gains currency per pulse
-  - [ ] hubs multiply charge
+  - [x] hubs multiply charge
     - [x] the further out the hub, the higher the multiplier
     - [x] multiplier result is rounded down
   - [x] hubs loose charge over time
@@ -50,7 +50,7 @@ Grow a network of energy dispersing hubs - each causing the others to react.
     - ~~[ ] pump:      surges energy along the network edges~~
   - [x] any module can fit to any hub
   - [x] modules use immediate energy available
-  - [ ] modules can be boosted for currency (boosting multiplies energy)
+  - [x] modules can be boosted for currency (boosting multiplies energy)
 - [ ] UI
   - [x] currency
   - [x] shop
@@ -87,4 +87,4 @@ Grow a network of energy dispersing hubs - each causing the others to react.
 
 ## Issues
 
-- [ ] hub mask does not blink if holding module
+- [ ] hub mask does not blink if holding module (feature?)

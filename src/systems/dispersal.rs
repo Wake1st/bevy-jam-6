@@ -54,7 +54,7 @@ fn create_wave(
                         material,
                     ),
                     Wave {
-                        strength: strength * e.energy,
+                        strength: strength * e.energy * module.multiplier,
                         radius: WAVE_RADIUS,
                         origin: position.extend(0.0),
                         source: hub_entity,

@@ -8,7 +8,7 @@ use crate::{
     types::hub::{CentralHub, Hub, spawn_hub, spawn_hub_mask},
 };
 
-const LAYER_COUNT: u8 = 6;
+const LAYER_COUNT: u8 = 2;
 const LAYER_THICKNESS: f32 = 80.0;
 const ANGLE_OFFSET: f32 = 0.3;
 const CART_OFFSET: f32 = 12.0;

@@ -1,6 +1,7 @@
 use bevy::prelude::*;
 
 pub const START_AMOUNT: f32 = 1.;
+pub const ENERGY_CAP: f32 = 4.0;
 
 pub const WAVE_RADIUS: f32 = 12.;
 pub const WAVE_THICCNESS: f32 = 0.6;

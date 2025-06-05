@@ -4,7 +4,7 @@ use bevy_egui::egui::emath::easing::cubic_in;
 use crate::{
     systems::collisions::CollisionEvent,
     types::{
-        energy::{Energy, START_AMOUNT},
+        energy::{ENERGY_CAP, Energy, START_AMOUNT},
         hub::{CentralHub, Hub},
     },
 };
@@ -19,7 +19,7 @@ impl Plugin for PulsePlugin {
     fn build(&self, app: &mut App) {
         app.init_resource::<CentralPulse>();
         app.add_event::<PulseEvent>();
-        app.add_systems(Update, (run_pulse, read_pulse, run_heartbeat, drain_energy));
+        app.add_systems(Update, (run_pulse, read_pulse, run_heartbeat, bound_energy));
     }
 }
 
@@ -75,8 +75,11 @@ fn read_pulse(
             continue;
         };
 
+        // grow and cap energy
         let added: f32 = e.energy * hub.multiplier;
         energy.amount += added;
+        energy.amount = energy.amount.min(ENERGY_CAP * hub.multiplier);
+
         adjusted.write(CurrencyAdjusted {
             amount: added.floor() as i128,
         });
@@ -85,23 +88,23 @@ fn read_pulse(
 
 fn run_heartbeat(
     time: Res<Time>,
-    mut hubs: Query<(Entity, &Energy, &mut Heartbeat), With<Hub>>,
+    mut hubs: Query<(Entity, &Energy, &mut Heartbeat, &Hub)>,
     mut writer: EventWriter<PulseEvent>,
 ) {
-    for (entity, energy, mut heartbeat) in hubs.iter_mut() {
+    for (entity, energy, mut heartbeat, hub) in hubs.iter_mut() {
         // beat the heart
         heartbeat.age += time.delta_secs();
         if heartbeat.age > PULSE_RATE {
             heartbeat.age -= PULSE_RATE;
             writer.write(PulseEvent {
                 hub: entity,
-                energy: energy.amount,
+                energy: energy.amount * hub.multiplier,
             });
         }
     }
 }
 
-fn drain_energy(time: Res<Time>, mut hubs: Query<&mut Energy, With<Hub>>) {
+fn bound_energy(time: Res<Time>, mut hubs: Query<&mut Energy, With<Hub>>) {
     let delta = time.delta_secs();
 
     for mut energy in hubs.iter_mut() {

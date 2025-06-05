@@ -2,7 +2,10 @@ use bevy::prelude::*;
 use bevy_egui::egui::emath::easing::cubic_in;
 
 use crate::{
-    systems::collisions::CollisionEvent,
+    systems::{
+        audio::{QueueSFX, SFX},
+        collisions::CollisionEvent,
+    },
     types::{
         energy::{ENERGY_CAP, Energy, START_AMOUNT},
         hub::{CentralHub, Hub},
@@ -69,6 +72,7 @@ fn read_pulse(
     mut reader: EventReader<CollisionEvent>,
     mut hubs: Query<(&mut Energy, &Hub)>,
     mut adjusted: EventWriter<CurrencyAdjusted>,
+    mut queue_sfx: EventWriter<QueueSFX>,
 ) {
     for e in reader.read() {
         let Ok((mut energy, hub)) = hubs.get_mut(e.hub) else {
@@ -82,6 +86,10 @@ fn read_pulse(
 
         adjusted.write(CurrencyAdjusted {
             amount: added.floor() as i128,
+        });
+        queue_sfx.write(QueueSFX {
+            sfx: SFX::HUB,
+            entity: e.hub,
         });
     }
 }

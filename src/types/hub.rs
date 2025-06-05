@@ -3,6 +3,7 @@ use bevy::{prelude::*, render::primitives::Aabb};
 use crate::{
     dnd::drop::Dropable,
     systems::{collisions::CollisionTimer, effects::PulsingMask},
+    types::sounds::HubSfx,
 };
 
 use super::energy::Energy;
@@ -19,7 +20,12 @@ pub struct Hub {
 #[derive(Component, Default)]
 pub struct CentralHub;
 
-pub fn spawn_hub(position: Vec2, multiplier: f32, texture: Handle<Image>) -> impl Bundle {
+pub fn spawn_hub(
+    position: Vec2,
+    multiplier: f32,
+    texture: Handle<Image>,
+    source: Handle<AudioSource>,
+) -> impl Bundle {
     (
         Name::new("Hub"),
         Sprite::from_image(texture),
@@ -34,6 +40,8 @@ pub fn spawn_hub(position: Vec2, multiplier: f32, texture: Handle<Image>) -> imp
         },
         Energy { ..default() },
         Dropable,
+        HubSfx,
+        AudioPlayer::new(source),
     )
 }
 

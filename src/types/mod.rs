@@ -2,3 +2,4 @@
 pub mod energy;
 pub mod hub;
 pub mod module;
+pub mod sounds;

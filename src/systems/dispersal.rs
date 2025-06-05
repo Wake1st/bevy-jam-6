@@ -1,7 +1,11 @@
 use bevy::{math::FloatPow, prelude::*};
 
 use crate::{
-    systems::{pulse::PulseEvent, relationships::HubHolder},
+    systems::{
+        audio::{QueueSFX, SFX, WAVE_SFX_PATH},
+        pulse::PulseEvent,
+        relationships::HubHolder,
+    },
     theme::palette::ENERGY_COLOR,
     types::{
         energy::{
@@ -10,6 +14,7 @@ use crate::{
         },
         hub::Hub,
         module::{Gong, Module, ModuleVarient},
+        sounds::WaveSfx,
     },
 };
 
@@ -31,6 +36,8 @@ fn create_wave(
     mut commands: Commands,
     mut meshes: ResMut<Assets<Mesh>>,
     mut materials: ResMut<Assets<ColorMaterial>>,
+    asset_server: Res<AssetServer>,
+    mut queue_sfx: EventWriter<QueueSFX>,
 ) {
     for e in pulse.read() {
         let Ok((hub_entity, holder)) = hubs.get(e.hub) else {
@@ -44,22 +51,33 @@ fn create_wave(
         // create an energy type
         let position = transform.translation().xy();
         let material = materials.add(ENERGY_COLOR);
+        let audio_source = asset_server.load(WAVE_SFX_PATH);
         match module.varient {
             ModuleVarient::Gong(strength) => {
-                commands.spawn((
-                    Name::new("Wave"),
-                    spawn_energy_type(
-                        position,
-                        meshes.add(Annulus::new(WAVE_RADIUS - WAVE_THICCNESS, WAVE_RADIUS)),
-                        material,
-                    ),
-                    Wave {
-                        strength: strength * e.energy * module.multiplier,
-                        radius: WAVE_RADIUS,
-                        origin: position.extend(0.0),
-                        source: hub_entity,
-                    },
-                ));
+                let id = commands
+                    .spawn((
+                        Name::new("Wave"),
+                        spawn_energy_type(
+                            position,
+                            meshes.add(Annulus::new(WAVE_RADIUS - WAVE_THICCNESS, WAVE_RADIUS)),
+                            material,
+                            audio_source,
+                        ),
+                        Wave {
+                            strength: strength * e.energy * module.multiplier,
+                            radius: WAVE_RADIUS,
+                            origin: position.extend(0.0),
+                            source: hub_entity,
+                        },
+                        WaveSfx,
+                    ))
+                    .id();
+
+                // play sfx
+                queue_sfx.write(QueueSFX {
+                    sfx: SFX::WAVE,
+                    entity: id,
+                });
             }
             _ => (),
         };

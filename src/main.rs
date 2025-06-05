@@ -1,5 +1,6 @@
 use bevy::{
     asset::AssetMetaCheck,
+    audio::{AudioPlugin, Volume},
     core_pipeline::{
         bloom::{Bloom, BloomPrefilter},
         tonemapping::{DebandDither, Tonemapping},
@@ -11,6 +12,8 @@ use bevy_cursor::TrackCursorPlugin;
 use bevy_egui::{EguiContext, EguiContextPass, EguiPlugin, egui};
 use bevy_inspector_egui::bevy_inspector;
 use systems::SystemsPlugin;
+
+use crate::systems::audio::GLOBAL_VOLUME;
 
 mod dnd;
 mod systems;
@@ -39,6 +42,12 @@ fn main() -> AppExit {
                         ..default()
                     }
                     .into(),
+                    ..default()
+                })
+                .set(AudioPlugin {
+                    global_volume: GlobalVolume {
+                        volume: Volume::Linear(GLOBAL_VOLUME),
+                    },
                     ..default()
                 }),
             TrackCursorPlugin,

@@ -8,10 +8,11 @@ use shop::ShopPlugin;
 use ui::UIPlugin;
 
 use crate::systems::{
-    boost::BoostPlugin, collisions::CollisionPlugin, dispersal::DispersalPlugin,
+    audio::SfxPlugin, boost::BoostPlugin, collisions::CollisionPlugin, dispersal::DispersalPlugin,
     relationships::RelationshipPlugin,
 };
 
+pub mod audio;
 pub mod boost;
 pub mod collisions;
 pub mod currency;
@@ -35,6 +36,12 @@ impl Plugin for SystemsPlugin {
             CollisionPlugin,
             BoostPlugin,
         ))
-        .add_plugins((CurrencyPlugin, EffectsPlugin, ShopPlugin, UIPlugin));
+        .add_plugins((
+            CurrencyPlugin,
+            EffectsPlugin,
+            ShopPlugin,
+            UIPlugin,
+            SfxPlugin,
+        ));
     }
 }

@@ -1,7 +1,7 @@
 use bevy::prelude::*;
 
 pub const START_AMOUNT: f32 = 1.;
-pub const ENERGY_CAP: f32 = 4.0;
+pub const ENERGY_CAP: f32 = 6.0;
 
 pub const WAVE_RADIUS: f32 = 12.;
 pub const WAVE_THICCNESS: f32 = 0.6;
@@ -44,10 +44,12 @@ pub fn spawn_energy_type(
     position: Vec2,
     mesh: Handle<Mesh>,
     material: Handle<ColorMaterial>,
+    source: Handle<AudioSource>,
 ) -> impl Bundle {
     (
         Mesh2d(mesh),
         MeshMaterial2d(material),
         Transform::from_translation(position.extend(ENERGY_LAYER)),
+        AudioPlayer::new(source),
     )
 }

@@ -3,11 +3,8 @@ use std::time::Duration;
 use bevy::{platform::collections::HashMap, prelude::*, render::primitives::Aabb};
 
 use crate::{
-    systems::pulse::{PULSE_RATE, PulseEvent},
-    types::{
-        energy::Wave,
-        hub::{self, Hub},
-    },
+    systems::pulse::PULSE_RATE,
+    types::{energy::Wave, hub::Hub},
 };
 
 pub struct CollisionPlugin;
@@ -73,10 +70,10 @@ fn check_wave_collision(
         };
 
         // find existing timers
-        if let Some(contains) = hub
+        if let Some(_) = hub
             .collision_timers
             .iter()
-            .find(|mut t| t.giver == *wave_entity)
+            .find(|t| t.giver == *wave_entity)
         {
             // info!(
             //     "{:?} is already colliding with {:?}",
@@ -99,12 +96,12 @@ fn check_wave_collision(
 }
 
 /// Disconnects the energy type from the hub when the time has finished
-fn cycle_collision_timer(time: Res<Time>, mut hubs: Query<(Entity, &mut Hub)>) {
+fn cycle_collision_timer(time: Res<Time>, mut hubs: Query<&mut Hub>) {
     let delta = time.delta_secs();
-    for (entity, mut hub) in hubs.iter_mut() {
+    for mut hub in hubs.iter_mut() {
         // remove finished timers
         let mut finished: Vec<usize> = vec![];
-        for (index, mut collision) in hub.collision_timers.iter_mut().enumerate() {
+        for (index, collision) in hub.collision_timers.iter_mut().enumerate() {
             collision.timer.tick(Duration::from_secs_f32(delta));
             if collision.timer.just_finished() {
                 finished.push(index);

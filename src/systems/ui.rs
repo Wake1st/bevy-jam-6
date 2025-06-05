@@ -1,6 +1,4 @@
-use std::fmt::Write;
-
-use bevy::{prelude::*, text::TextSpanAccess};
+use bevy::prelude::*;
 use bevy_cursor::CursorLocation;
 
 use crate::{
@@ -21,7 +19,6 @@ const UI_GAP: f32 = 16.;
 const UI_LENGTH: f32 = 64.;
 
 const FONT_SIZE: f32 = 44.;
-const COUNTER_SIZE: Vec2 = Vec2::new(160., 60.);
 const COUNTER_X_OFFSET_LABEL: f32 = -392.;
 const COUNTER_X_OFFSET_NUM: f32 = 38.;
 

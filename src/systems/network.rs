@@ -39,7 +39,7 @@ fn generate_hub_map(mut commands: Commands, asset_server: Res<AssetServer>) {
     let mut layer_multiplier = 1.0;
 
     // starting hub
-    let center = commands.spawn((
+    commands.spawn((
         spawn_hub(
             Vec2 { x: 0.0, y: 0.0 },
             layer_multiplier,

@@ -3,8 +3,6 @@ use bevy_cursor::CursorLocation;
 
 use crate::types::module::{ModuleVarient, spawn_generator, spawn_gong, spawn_lazer, spawn_tesla};
 
-use super::currency::{self, Currency, PRICE_GENERATOR, PRICE_GONG, PRICE_LAZER, PRICE_TESLA};
-
 pub struct ShopPlugin;
 
 impl Plugin for ShopPlugin {

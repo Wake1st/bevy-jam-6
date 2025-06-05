@@ -1,13 +1,12 @@
 use bevy::{
-    math::bounding::{BoundingCircle, BoundingVolume, IntersectsVolume},
+    math::bounding::{BoundingCircle, BoundingVolume},
     prelude::*,
-    render::primitives::Aabb,
 };
 use bevy_cursor::CursorLocation;
 
 use crate::{
     systems::{currency::Currency, relationships::HubHolder},
-    types::{hub::Hub, module::Module},
+    types::module::Module,
 };
 
 const MULTIPLIER_INCREMENT: f32 = 0.1;
@@ -33,7 +32,7 @@ pub struct Boosted {
 fn check_boost_selection(
     buttons: Res<ButtonInput<MouseButton>>,
     cursor: Res<CursorLocation>,
-    hubs: Query<(Entity, &GlobalTransform, &Hub)>,
+    hubs: Query<(Entity, &GlobalTransform)>,
     mut boosted: EventWriter<Boosted>,
 ) {
     // check for right click
@@ -47,7 +46,7 @@ fn check_boost_selection(
     };
     let selection = BoundingCircle::new(position, CURSOR_RADIUS);
 
-    for (entity, transform, hub) in hubs.iter() {
+    for (entity, transform) in hubs.iter() {
         // check if hub selected
         let bounds = BoundingCircle::new(transform.translation().xy(), HUB_RADIUS);
         if !bounds.contains(&selection) {
@@ -60,7 +59,7 @@ fn check_boost_selection(
 
 fn boost_hub(
     mut boosted: EventReader<Boosted>,
-    holders: Query<(&HubHolder)>,
+    holders: Query<&HubHolder>,
     mut modules: Query<&mut Module>,
     mut currency: ResMut<Currency>,
 ) {

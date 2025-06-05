@@ -31,7 +31,7 @@ Grow a network of energy dispersing hubs - each causing the others to react.
 
 - [ ] crates
   - [x] [`bevy_egui`](https://docs.rs/bevy_egui/latest/bevy_egui/)
-  - [ ] [`bevy_simple_subsecond_system`](https://github.com/TheBevyFlock/bevy_simple_subsecond_system)
+  - ~~[ ] [`bevy_simple_subsecond_system`](https://github.com/TheBevyFlock/bevy_simple_subsecond_system)~~
 - [ ] hubs
   - [x] gains currency per pulse
   - [x] hubs multiply charge
@@ -89,3 +89,8 @@ Grow a network of energy dispersing hubs - each causing the others to react.
 
 - [ ] hub mask does not blink if holding module (feature?)
 - [ ] why can't we see all the hubs?
+
+### Web
+
+- [ ] sound TOO loud
+- [ ] cannot see mask blinking

@@ -6,7 +6,7 @@ use bevy::{
         tonemapping::{DebandDither, Tonemapping},
     },
     prelude::*,
-    window::{PrimaryWindow, WindowResolution},
+    window::PrimaryWindow,
 };
 use bevy_cursor::TrackCursorPlugin;
 use bevy_egui::{EguiContext, EguiContextPass, EguiPlugin, egui};

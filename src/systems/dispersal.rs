@@ -1,4 +1,4 @@
-use bevy::{math::FloatPow, prelude::*};
+use bevy::prelude::*;
 
 use crate::{
     systems::{
@@ -8,10 +8,7 @@ use crate::{
     },
     theme::palette::ENERGY_COLOR,
     types::{
-        energy::{
-            BEAM_THICCNESS, BOLT_RADIUS, Energy, FIELD_RADIUS_RATIO, WAVE_RADIUS, WAVE_THICCNESS,
-            Wave, spawn_energy_type,
-        },
+        energy::{WAVE_RADIUS, WAVE_THICCNESS, Wave, spawn_energy_type},
         hub::Hub,
         module::{Gong, Module, ModuleVarient},
         sounds::WaveSfx,
@@ -109,32 +106,3 @@ fn destroy_wave(waves: Query<(Entity, &Wave)>, mut commands: Commands) {
         }
     }
 }
-
-// ModuleVarient::Generator(radius) => (
-//     Name::new("Generator"),
-//     spawn_energy_type(
-//         position,
-//         meshes.add(Circle::new(FIELD_RADIUS_RATIO * radius * energy.amount)),
-//         material,
-//     ),
-//     Field {},
-// ),
-// ModuleVarient::Tesla(_) => (
-//     Name::new("Tesla"),
-//     spawn_energy_type(position, meshes.add(Circle::new(BOLT_RADIUS)), material),
-//     Bolt {
-//         count: module.level,
-//     },
-// ),
-// ModuleVarient::Lazer(length) => (
-//     Name::new("Lazer"),
-//     spawn_energy_type(
-//         position,
-//         meshes.add(Capsule2d::new(BEAM_THICCNESS, length * energy.amount)),
-//         material,
-//     ),
-//     Beam {
-//         length: length * energy.amount,
-//         angle: 0.0,
-//     },
-// ),

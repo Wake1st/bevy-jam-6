@@ -1,5 +1,4 @@
 use bevy::prelude::*;
-use bevy_egui::egui::emath::easing::cubic_in;
 
 use crate::{
     systems::{
@@ -12,7 +11,7 @@ use crate::{
     },
 };
 
-use super::currency::{self, Currency, CurrencyAdjusted};
+use super::currency::CurrencyAdjusted;
 
 pub const PULSE_RATE: f32 = 1.0;
 

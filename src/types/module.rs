@@ -24,25 +24,25 @@ pub enum ModuleVarient {
     Lazer(f32),
 }
 
-#[derive(Reflect, Component, Default, Debug)]
+#[derive(Reflect, Component, Default, Debug, Clone)]
 #[reflect(Component)]
 pub struct Gong;
 // pub strength: f32, // how long the wave lasts
 // }
 
-#[derive(Reflect, Component, Default, Debug)]
+#[derive(Reflect, Component, Default, Debug, Clone)]
 #[reflect(Component)]
 pub struct Generator;
 // pub radius: f32, // how large the field
 // }
 
-#[derive(Reflect, Component, Default, Debug)]
+#[derive(Reflect, Component, Default, Debug, Clone)]
 #[reflect(Component)]
 pub struct Tesla;
 // pub bounces: u8, // how many times the bolt ricochets
 // }
 
-#[derive(Reflect, Component, Default, Debug)]
+#[derive(Reflect, Component, Default, Debug, Clone)]
 #[reflect(Component)]
 pub struct Lazer;
 // pub count: u8, // how many beams

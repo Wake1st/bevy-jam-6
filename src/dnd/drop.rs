@@ -2,7 +2,7 @@ use bevy::prelude::*;
 use bevy_cursor::CursorLocation;
 
 use crate::{
-    AppSet,
+    ScheduleSystems,
     systems::{
         currency::{
             CurrencyAdjusted,
@@ -20,7 +20,7 @@ const DROPABLE_SIZE: Vec2 = Vec2::splat(32.0);
 
 pub(super) fn plugin(app: &mut App) {
     app.add_event::<Released>();
-    app.add_systems(Update, drop.in_set(AppSet::RecordInput))
+    app.add_systems(Update, drop.in_set(ScheduleSystems::RecordInput))
         .add_systems(Update, released);
 }
 

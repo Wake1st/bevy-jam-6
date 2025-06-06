@@ -1,7 +1,7 @@
 use bevy::prelude::*;
 use bevy_cursor::CursorLocation;
 
-use crate::{AppSet, systems::relationships::ModuleRemoved};
+use crate::{ScheduleSystems, systems::relationships::ModuleRemoved};
 
 const DRAGGABLE_SIZE: Vec2 = Vec2::splat(32.0);
 
@@ -9,8 +9,8 @@ pub(super) fn plugin(app: &mut App) {
     app.add_systems(
         Update,
         (
-            start_drag.in_set(AppSet::RecordInput),
-            drag.in_set(AppSet::Update),
+            start_drag.in_set(ScheduleSystems::RecordInput),
+            drag.in_set(ScheduleSystems::Update),
         ),
     );
 }

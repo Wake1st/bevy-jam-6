@@ -58,11 +58,11 @@ fn main() -> AppExit {
         .configure_sets(
             Update,
             (
-                AppSet::TickTimers,
-                AppSet::RecordInput,
-                AppSet::Update,
-                AppSet::AudioFeedback,
-                AppSet::Despawn,
+                ScheduleSystems::TickTimers,
+                ScheduleSystems::RecordInput,
+                ScheduleSystems::Update,
+                ScheduleSystems::AudioFeedback,
+                ScheduleSystems::Despawn,
             )
                 .chain(),
         )
@@ -131,7 +131,7 @@ fn inspector_ui(world: &mut World) {
 /// When adding a new variant, make sure to order it in the `configure_sets`
 /// call above.
 #[derive(SystemSet, Debug, Clone, Copy, Eq, PartialEq, Hash, PartialOrd, Ord)]
-enum AppSet {
+enum ScheduleSystems {
     /// Tick timers.
     TickTimers,
     /// Record player input.

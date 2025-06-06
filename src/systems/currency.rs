@@ -1,5 +1,7 @@
 use bevy::prelude::*;
 
+use crate::game::reset_game;
+
 pub const PRICE_GONG: i128 = 10;
 // pub const PRICE_GENERATOR: i128 = 120;
 // pub const PRICE_TESLA: i128 = 2100;
@@ -13,6 +15,7 @@ impl Plugin for CurrencyPlugin {
         app.add_event::<CurrencyAdjusted>();
 
         app.add_systems(Update, adjust_currency);
+        app.add_systems(Update, reset_currency.run_if(reset_game));
     }
 }
 
@@ -28,4 +31,8 @@ fn adjust_currency(mut event: EventReader<CurrencyAdjusted>, mut currency: ResMu
     for e in event.read() {
         currency.0 += e.amount;
     }
+}
+
+fn reset_currency(mut currency: ResMut<Currency>) {
+    currency.0 = 0;
 }

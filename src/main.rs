@@ -6,16 +6,19 @@ use bevy::{
         tonemapping::{DebandDither, Tonemapping},
     },
     prelude::*,
-    window::PrimaryWindow,
 };
 use bevy_cursor::TrackCursorPlugin;
-use bevy_egui::{EguiContext, EguiContextPass, EguiPlugin, egui};
-use bevy_inspector_egui::bevy_inspector;
-use systems::SystemsPlugin;
 
-use crate::{systems::audio::GLOBAL_VOLUME, theme::palette::BACKGROUND_COLOR};
+use crate::{
+    game::GamePlugin,
+    systems::{SystemsPlugin, audio::GLOBAL_VOLUME},
+    theme::palette::BACKGROUND_COLOR,
+};
 
+#[cfg(feature = "dev")]
+mod dev_tools;
 mod dnd;
+mod game;
 mod systems;
 mod theme;
 mod types;
@@ -48,13 +51,15 @@ fn main() -> AppExit {
                     ..default()
                 }),
             TrackCursorPlugin,
-            EguiPlugin {
-                enable_multipass_for_primary_context: true,
-            },
-            bevy_inspector_egui::DefaultInspectorConfigPlugin,
         ))
         .insert_resource(ClearColor(BACKGROUND_COLOR))
-        .add_plugins((SystemsPlugin, dnd::plugin))
+        .add_plugins((
+            GamePlugin,
+            SystemsPlugin,
+            dnd::plugin,
+            #[cfg(feature = "dev")]
+            dev_tools::plugin,
+        ))
         .configure_sets(
             Update,
             (
@@ -67,7 +72,6 @@ fn main() -> AppExit {
                 .chain(),
         )
         .add_systems(Startup, setup)
-        .add_systems(EguiContextPass, inspector_ui)
         .run()
 }
 
@@ -99,32 +103,6 @@ fn setup(mut commands: Commands) {
         MainCamera,
         Transform::from_xyz(0., -56., 0.),
     ));
-}
-
-fn inspector_ui(world: &mut World) {
-    let mut egui_context = world
-        .query_filtered::<&mut EguiContext, With<PrimaryWindow>>()
-        .single(world)
-        .expect("EguiContext not found")
-        .clone();
-
-    egui::Window::new("UI").show(egui_context.get_mut(), |ui| {
-        egui::ScrollArea::both().show(ui, |ui| {
-            // equivalent to `WorldInspectorPlugin`
-            bevy_inspector::ui_for_world(world, ui);
-
-            // works with any `Reflect` value, including `Handle`s
-            let mut any_reflect_value: i32 = 5;
-            bevy_inspector::ui_for_value(&mut any_reflect_value, ui, world);
-
-            egui::CollapsingHeader::new("Materials").show(ui, |ui| {
-                bevy_inspector::ui_for_assets::<StandardMaterial>(world, ui);
-            });
-
-            ui.heading("Entities");
-            bevy_inspector::ui_for_entities(world, ui);
-        });
-    });
 }
 
 /// High-level groupings of systems for the app in the `Update` schedule.

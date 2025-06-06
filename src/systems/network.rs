@@ -4,8 +4,12 @@ use bevy::prelude::*;
 use rand::prelude::*;
 
 use crate::{
+    game::reset_game,
     systems::{audio::HUB_SFX_PATH, pulse::Heartbeat},
-    types::hub::{CentralHub, Hub, spawn_hub, spawn_hub_mask},
+    types::{
+        hub::{CentralHub, Hub, spawn_hub, spawn_hub_mask},
+        module::Module,
+    },
 };
 
 const LAYER_COUNT: u8 = 8;
@@ -20,15 +24,11 @@ impl Plugin for NetworkPlugin {
     fn build(&self, app: &mut App) {
         app.add_systems(
             Update,
-            (clear_hub_map, generate_hub_map)
+            ((clear_modules, clear_hub_map), generate_hub_map)
                 .chain()
-                .run_if(regen_selected),
+                .run_if(reset_game),
         );
     }
-}
-
-fn regen_selected(keyboard: Res<ButtonInput<KeyCode>>) -> bool {
-    keyboard.just_pressed(KeyCode::Tab)
 }
 
 fn generate_hub_map(mut commands: Commands, asset_server: Res<AssetServer>) {
@@ -83,5 +83,11 @@ fn generate_hub_map(mut commands: Commands, asset_server: Res<AssetServer>) {
 fn clear_hub_map(mut commands: Commands, hubs: Query<Entity, With<Hub>>) {
     for hub in hubs.iter() {
         commands.entity(hub).despawn();
+    }
+}
+
+fn clear_modules(mut commands: Commands, modules: Query<Entity, With<Module>>) {
+    for module in modules.iter() {
+        commands.entity(module).despawn();
     }
 }

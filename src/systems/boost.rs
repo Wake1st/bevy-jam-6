@@ -76,9 +76,8 @@ fn boost_hub(
         let cost = (BOOST_MULTIPLIER * module.multiplier.powf(BOOST_EXPONENT)) as i128;
         if currency.0 > cost {
             currency.0 -= cost;
+            module.level += 1;
+            module.multiplier += MULTIPLIER_INCREMENT;
         }
-
-        module.level += 1;
-        module.multiplier += MULTIPLIER_INCREMENT;
     }
 }

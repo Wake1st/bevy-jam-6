@@ -1,5 +1,6 @@
-use bevy::prelude::*;
+use bevy::{audio::Volume, prelude::*};
 
+const LOCAL_VOLUME: f32 = 0.4;
 pub const GLOBAL_VOLUME: f32 = 0.2;
 pub const HUB_SFX_PATH: &str = "sounds/hub_ping.ogg";
 pub const WAVE_SFX_PATH: &str = "sounds/wave.ogg";
@@ -28,12 +29,13 @@ pub struct QueueSFX {
 //     // BEAM,
 // }
 
-fn play_sound(mut reader: EventReader<QueueSFX>, mut sfx_sinks: Query<&AudioSink>) {
+fn play_sound(mut reader: EventReader<QueueSFX>, mut sfx_sinks: Query<&mut AudioSink>) {
     for e in reader.read() {
-        let Ok(sink) = sfx_sinks.get_mut(e.entity) else {
+        let Ok(mut sink) = sfx_sinks.get_mut(e.entity) else {
             continue;
         };
 
+        sink.set_volume(Volume::Linear(LOCAL_VOLUME));
         sink.play();
     }
 }

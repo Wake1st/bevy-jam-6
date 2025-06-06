@@ -2,6 +2,7 @@ use bevy::prelude::*;
 use bevy_cursor::CursorLocation;
 
 use crate::{
+    game::ResetGame,
     theme::palette::{ENERGY_COLOR, UI_BACKGROUND},
     types::module::{BASE_STRENGTH, ModuleVarient},
 };
@@ -16,6 +17,8 @@ use super::{
     shop::Purchased,
 };
 
+const RESET_PATH: &str = "images/reset.png";
+
 const UI_BASE: Vec2 = Vec2::new(1400., 106.);
 const UI_LAYER: f32 = 0.9;
 const UI_BOTTOM: f32 = -363.;
@@ -23,16 +26,24 @@ const UI_X_OFFSET: f32 = 460.;
 const UI_GAP: f32 = 16.;
 const UI_LENGTH: f32 = 64.;
 
+const RESET_BUTTON_X: f32 = -584.;
+
 const FONT_SIZE: f32 = 44.;
-const COUNTER_X_OFFSET_LABEL: f32 = -392.;
-const COUNTER_X_OFFSET_NUM: f32 = 38.;
+const COUNTER_X_OFFSET_LABEL: f32 = -312.;
+const COUNTER_X_OFFSET_NUM: f32 = 94.;
 
 pub struct UIPlugin;
 
 impl Plugin for UIPlugin {
     fn build(&self, app: &mut App) {
-        app.add_systems(Startup, spawn_shop)
-            .add_systems(Update, (check_button_selected, update_currency_text));
+        app.add_systems(Startup, spawn_shop).add_systems(
+            Update,
+            (
+                check_reset_button_selected,
+                check_shop_button_selected,
+                update_currency_text,
+            ),
+        );
     }
 }
 
@@ -40,15 +51,30 @@ impl Plugin for UIPlugin {
 pub struct ShopButton(pub ModuleVarient);
 
 #[derive(Component, Debug)]
+pub struct ResetButton;
+
+#[derive(Component, Debug)]
 pub struct CurrencyText;
 
 fn spawn_shop(mut commands: Commands, asset_server: Res<AssetServer>) {
+    let reset_texture = asset_server.load(RESET_PATH);
+
     let base = commands
         .spawn((
             Name::new("Shop Background"),
             Sprite::from_color(UI_BACKGROUND, UI_BASE),
             Transform::from_xyz(0., UI_BOTTOM, UI_LAYER),
             children![
+                (
+                    Name::new("Reset Button"),
+                    ResetButton,
+                    Sprite {
+                        image: reset_texture,
+                        custom_size: Some(Vec2::splat(UI_LENGTH)),
+                        ..default()
+                    },
+                    Transform::from_xyz(RESET_BUTTON_X, 0., 0.),
+                ),
                 (
                     Name::new("Currency Label"),
                     Text2d::new("Currency: "),
@@ -169,7 +195,7 @@ fn update_currency_text(
 #[event(traversal = &'static ChildOf, auto_propagate)]
 pub struct ShopButtonSelected;
 
-fn check_button_selected(
+fn check_shop_button_selected(
     mouse_button_input: Res<ButtonInput<MouseButton>>,
     cursor: Res<CursorLocation>,
     buttons: Query<(Entity, &GlobalTransform), With<ShopButton>>,
@@ -217,5 +243,30 @@ fn shop_button_selected(
             varient: button.0.clone(),
         });
         adjusted.write(CurrencyAdjusted { amount: -cost });
+    }
+}
+
+fn check_reset_button_selected(
+    mouse_button_input: Res<ButtonInput<MouseButton>>,
+    cursor: Res<CursorLocation>,
+    buttons: Query<&GlobalTransform, With<ResetButton>>,
+    mut reset: EventWriter<ResetGame>,
+) {
+    // only run when left mouse selected
+    if !mouse_button_input.just_pressed(MouseButton::Left) {
+        return;
+    }
+
+    // ensure we have a cursor
+    let Some(position) = cursor.world_position() else {
+        return;
+    };
+
+    // trigger selected button
+    for transform in buttons.iter() {
+        let rect = Rect::from_center_size(transform.translation().xy(), Vec2::splat(UI_LENGTH));
+        if rect.contains(position) {
+            reset.write(ResetGame);
+        }
     }
 }

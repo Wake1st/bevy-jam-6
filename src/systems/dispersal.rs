@@ -1,6 +1,7 @@
 use bevy::prelude::*;
 
 use crate::{
+    game::reset_game,
     systems::{
         audio::{QueueSFX, WAVE_SFX_PATH},
         pulse::PulseEvent,
@@ -22,7 +23,15 @@ pub struct DispersalPlugin;
 
 impl Plugin for DispersalPlugin {
     fn build(&self, app: &mut App) {
-        app.add_systems(Update, (create_wave, spread_wave, destroy_wave));
+        app.add_systems(
+            Update,
+            (
+                create_wave,
+                spread_wave,
+                destroy_wave,
+                clear_waves.run_if(reset_game),
+            ),
+        );
     }
 }
 
@@ -100,5 +109,11 @@ fn destroy_wave(waves: Query<(Entity, &Wave)>, mut commands: Commands) {
             // commands.entity(entity).despawn_related();
             commands.entity(entity).despawn();
         }
+    }
+}
+
+fn clear_waves(waves: Query<Entity, With<Wave>>, mut commands: Commands) {
+    for wave in waves.iter() {
+        commands.entity(wave).despawn();
     }
 }

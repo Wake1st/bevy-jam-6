@@ -4,7 +4,11 @@ use bevy_cursor::CursorLocation;
 use crate::{
     AppSet,
     systems::{
-        currency::{CurrencyAdjusted, PRICE_GENERATOR, PRICE_GONG, PRICE_LAZER, PRICE_TESLA},
+        currency::{
+            CurrencyAdjusted,
+            PRICE_GONG,
+            // PRICE_GENERATOR, PRICE_LAZER, PRICE_TESLA
+        },
         relationships::ModuleAttached,
     },
     types::module::{Module, ModuleVarient},
@@ -100,9 +104,9 @@ fn released(
             currency_adjustment.write(CurrencyAdjusted {
                 amount: match module.varient {
                     ModuleVarient::Gong(_) => PRICE_GONG,
-                    ModuleVarient::Generator(_) => PRICE_GENERATOR,
-                    ModuleVarient::Tesla(_) => PRICE_TESLA,
-                    ModuleVarient::Lazer(_) => PRICE_LAZER,
+                    // ModuleVarient::Generator(_) => PRICE_GENERATOR,
+                    // ModuleVarient::Tesla(_) => PRICE_TESLA,
+                    // ModuleVarient::Lazer(_) => PRICE_LAZER,
                 },
             });
         }

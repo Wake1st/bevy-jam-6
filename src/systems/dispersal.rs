@@ -2,7 +2,7 @@ use bevy::prelude::*;
 
 use crate::{
     systems::{
-        audio::{QueueSFX, SFX, WAVE_SFX_PATH},
+        audio::{QueueSFX, WAVE_SFX_PATH},
         pulse::PulseEvent,
         relationships::HubHolder,
     },
@@ -49,35 +49,31 @@ fn create_wave(
         let position = transform.translation().xy();
         let material = materials.add(ENERGY_COLOR);
         let audio_source = asset_server.load(WAVE_SFX_PATH);
-        match module.varient {
-            ModuleVarient::Gong(strength) => {
-                let id = commands
-                    .spawn((
-                        Name::new("Wave"),
-                        spawn_energy_type(
-                            position,
-                            meshes.add(Annulus::new(WAVE_RADIUS - WAVE_THICCNESS, WAVE_RADIUS)),
-                            material,
-                            audio_source,
-                        ),
-                        Wave {
-                            strength: strength * e.energy * module.multiplier,
-                            radius: WAVE_RADIUS,
-                            origin: position.extend(0.0),
-                            source: hub_entity,
-                        },
-                        WaveSfx,
-                    ))
-                    .id();
 
-                // play sfx
-                queue_sfx.write(QueueSFX {
-                    sfx: SFX::WAVE,
-                    entity: id,
-                });
-            }
-            _ => (),
-        };
+        let ModuleVarient::Gong(strength) = module.varient;
+        let id = commands
+            .spawn((
+                Name::new("Wave"),
+                spawn_energy_type(
+                    position,
+                    meshes.add(Annulus::new(WAVE_RADIUS - WAVE_THICCNESS, WAVE_RADIUS)),
+                    material,
+                    audio_source,
+                ),
+                Wave {
+                    strength: strength * e.energy * module.multiplier,
+                    radius: WAVE_RADIUS,
+                    source: hub_entity,
+                },
+                WaveSfx,
+            ))
+            .id();
+
+        // play sfx
+        queue_sfx.write(QueueSFX {
+            // sfx: SFX::WAVE,
+            entity: id,
+        });
     }
 }
 

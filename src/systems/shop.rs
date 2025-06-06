@@ -1,7 +1,11 @@
 use bevy::prelude::*;
 use bevy_cursor::CursorLocation;
 
-use crate::types::module::{ModuleVarient, spawn_generator, spawn_gong, spawn_lazer, spawn_tesla};
+use crate::types::module::{
+    ModuleVarient,
+    spawn_gong,
+    // spawn_generator, spawn_lazer, spawn_tesla
+};
 
 pub struct ShopPlugin;
 
@@ -31,19 +35,18 @@ fn purchase(
         match e.varient {
             ModuleVarient::Gong(_) => {
                 commands.spawn(spawn_gong(position, asset_server.load("images/gong.png")));
-            }
-            ModuleVarient::Generator(_) => {
-                commands.spawn(spawn_generator(
-                    position,
-                    asset_server.load("images/generator.png"),
-                ));
-            }
-            ModuleVarient::Tesla(_) => {
-                commands.spawn(spawn_tesla(position, asset_server.load("images/tesla.png")));
-            }
-            ModuleVarient::Lazer(_) => {
-                commands.spawn(spawn_lazer(position, asset_server.load("images/lazer.png")));
-            }
+            } // ModuleVarient::Generator(_) => {
+              //     commands.spawn(spawn_generator(
+              //         position,
+              //         asset_server.load("images/generator.png"),
+              //     ));
+              // }
+              // ModuleVarient::Tesla(_) => {
+              //     commands.spawn(spawn_tesla(position, asset_server.load("images/tesla.png")));
+              // }
+              // ModuleVarient::Lazer(_) => {
+              //     commands.spawn(spawn_lazer(position, asset_server.load("images/lazer.png")));
+              // }
         }
 
         info!("spawned at: {:?}", position);

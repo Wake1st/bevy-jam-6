@@ -46,9 +46,5 @@ pub fn spawn_hub(
 }
 
 pub fn spawn_hub_mask(texture: Handle<Image>) -> impl Bundle {
-    (
-        Name::new("Mask"),
-        PulsingMask { ..default() },
-        Sprite::from_image(texture),
-    )
+    (Name::new("Mask"), PulsingMask, Sprite::from_image(texture))
 }

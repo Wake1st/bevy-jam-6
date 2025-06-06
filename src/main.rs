@@ -13,15 +13,12 @@ use bevy_egui::{EguiContext, EguiContextPass, EguiPlugin, egui};
 use bevy_inspector_egui::bevy_inspector;
 use systems::SystemsPlugin;
 
-use crate::systems::audio::GLOBAL_VOLUME;
+use crate::{systems::audio::GLOBAL_VOLUME, theme::palette::BACKGROUND_COLOR};
 
 mod dnd;
 mod systems;
 mod theme;
 mod types;
-
-const BACKGROUND_COLOR: Color =
-    Color::srgb(0.1843137254901961, 0.12549019607843137, 0.2549019607843137);
 
 fn main() -> AppExit {
     App::new()

@@ -1,9 +1,9 @@
 use bevy::prelude::*;
 
 pub const PRICE_GONG: i128 = 10;
-pub const PRICE_GENERATOR: i128 = 120;
-pub const PRICE_TESLA: i128 = 2100;
-pub const PRICE_LAZER: i128 = 14000;
+// pub const PRICE_GENERATOR: i128 = 120;
+// pub const PRICE_TESLA: i128 = 2100;
+// pub const PRICE_LAZER: i128 = 14000;
 
 pub struct CurrencyPlugin;
 

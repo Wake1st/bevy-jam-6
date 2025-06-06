@@ -20,7 +20,6 @@ pub struct Energy {
 pub struct Wave {
     pub strength: f32,
     pub radius: f32,
-    pub origin: Vec3,
     pub source: Entity,
 } // Gong
 

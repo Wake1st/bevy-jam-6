@@ -1,10 +1,7 @@
 use bevy::prelude::*;
 
 use crate::{
-    systems::{
-        audio::{QueueSFX, SFX},
-        collisions::CollisionEvent,
-    },
+    systems::{audio::QueueSFX, collisions::CollisionEvent},
     types::{
         energy::{ENERGY_CAP, Energy, START_AMOUNT},
         hub::{CentralHub, Hub},
@@ -87,7 +84,7 @@ fn read_pulse(
             amount: added.floor() as i128,
         });
         queue_sfx.write(QueueSFX {
-            sfx: SFX::HUB,
+            // sfx: Sfx::Hub,
             entity: e.hub,
         });
     }

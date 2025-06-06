@@ -3,11 +3,16 @@ use bevy_cursor::CursorLocation;
 
 use crate::{
     theme::palette::{ENERGY_COLOR, UI_BACKGROUND},
-    types::module::{BASE_BOUNCE, BASE_LENGTH, BASE_RADIUS, BASE_STRENGTH, ModuleVarient},
+    types::module::{BASE_STRENGTH, ModuleVarient},
 };
 
 use super::{
-    currency::{Currency, CurrencyAdjusted, PRICE_GENERATOR, PRICE_GONG, PRICE_LAZER, PRICE_TESLA},
+    currency::{
+        Currency,
+        CurrencyAdjusted,
+        PRICE_GONG,
+        // PRICE_GENERATOR, PRICE_LAZER, PRICE_TESLA
+    },
     shop::Purchased,
 };
 
@@ -83,42 +88,42 @@ fn spawn_shop(mut commands: Commands, asset_server: Res<AssetServer>) {
             ChildOf(base),
         ))
         .observe(shop_button_selected);
-    commands
-        .spawn((
-            spawn_shop_button(
-                Vec2::new(UI_X_OFFSET + (UI_GAP + UI_LENGTH) * -0.5, -8.),
-                asset_server.load("images/generator.png"),
-                ModuleVarient::Generator(BASE_RADIUS),
-                asset_server.load("fonts/SixtyfourConvergence-Regular.ttf"),
-                PRICE_GENERATOR,
-            ),
-            ChildOf(base),
-        ))
-        .observe(shop_button_selected);
-    commands
-        .spawn((
-            spawn_shop_button(
-                Vec2::new(UI_X_OFFSET + (UI_GAP + UI_LENGTH) * 0.5, -8.),
-                asset_server.load("images/tesla.png"),
-                ModuleVarient::Tesla(BASE_BOUNCE),
-                asset_server.load("fonts/SixtyfourConvergence-Regular.ttf"),
-                PRICE_TESLA,
-            ),
-            ChildOf(base),
-        ))
-        .observe(shop_button_selected);
-    commands
-        .spawn((
-            spawn_shop_button(
-                Vec2::new(UI_X_OFFSET + (UI_GAP + UI_LENGTH) * 1.5, -8.),
-                asset_server.load("images/lazer.png"),
-                ModuleVarient::Lazer(BASE_LENGTH),
-                asset_server.load("fonts/SixtyfourConvergence-Regular.ttf"),
-                PRICE_LAZER,
-            ),
-            ChildOf(base),
-        ))
-        .observe(shop_button_selected);
+    // commands
+    //     .spawn((
+    //         spawn_shop_button(
+    //             Vec2::new(UI_X_OFFSET + (UI_GAP + UI_LENGTH) * -0.5, -8.),
+    //             asset_server.load("images/generator.png"),
+    //             ModuleVarient::Generator(BASE_RADIUS),
+    //             asset_server.load("fonts/SixtyfourConvergence-Regular.ttf"),
+    //             PRICE_GENERATOR,
+    //         ),
+    //         ChildOf(base),
+    //     ))
+    //     .observe(shop_button_selected);
+    // commands
+    //     .spawn((
+    //         spawn_shop_button(
+    //             Vec2::new(UI_X_OFFSET + (UI_GAP + UI_LENGTH) * 0.5, -8.),
+    //             asset_server.load("images/tesla.png"),
+    //             ModuleVarient::Tesla(BASE_BOUNCE),
+    //             asset_server.load("fonts/SixtyfourConvergence-Regular.ttf"),
+    //             PRICE_TESLA,
+    //         ),
+    //         ChildOf(base),
+    //     ))
+    //     .observe(shop_button_selected);
+    // commands
+    //     .spawn((
+    //         spawn_shop_button(
+    //             Vec2::new(UI_X_OFFSET + (UI_GAP + UI_LENGTH) * 1.5, -8.),
+    //             asset_server.load("images/lazer.png"),
+    //             ModuleVarient::Lazer(BASE_LENGTH),
+    //             asset_server.load("fonts/SixtyfourConvergence-Regular.ttf"),
+    //             PRICE_LAZER,
+    //         ),
+    //         ChildOf(base),
+    //     ))
+    //     .observe(shop_button_selected);
 }
 
 fn spawn_shop_button(
@@ -139,7 +144,7 @@ fn spawn_shop_button(
         Transform::from_translation(position.extend(0.)),
         children![(
             Name::new("Price"),
-            Text2d::new(format!("{:?}", price)),
+            Text2d::new(format!("{price:?}")),
             TextFont {
                 font,
                 font_size: 16.0,
@@ -202,9 +207,9 @@ fn shop_button_selected(
 
     let cost = match button.0 {
         ModuleVarient::Gong(_) => PRICE_GONG,
-        ModuleVarient::Generator(_) => PRICE_GENERATOR,
-        ModuleVarient::Tesla(_) => PRICE_TESLA,
-        ModuleVarient::Lazer(_) => PRICE_LAZER,
+        // ModuleVarient::Generator(_) => PRICE_GENERATOR,
+        // ModuleVarient::Tesla(_) => PRICE_TESLA,
+        // ModuleVarient::Lazer(_) => PRICE_LAZER,
     };
 
     if currency.0 > cost {

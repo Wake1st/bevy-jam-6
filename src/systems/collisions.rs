@@ -70,12 +70,7 @@ fn check_wave_collision(
         };
 
         // find existing timers
-        if hub
-            .collision_timers
-            .iter()
-            .find(|t| t.giver == *wave_entity)
-            .is_some()
-        {
+        if hub.collision_timers.iter().any(|t| t.giver == *wave_entity) {
             // info!(
             //     "{:?} is already colliding with {:?}",
             //     wave_entity, hub_entity

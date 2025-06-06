@@ -1775,6 +1775,7 @@ dependencies = [
  "bevy-inspector-egui",
  "bevy_cursor",
  "bevy_egui",
+ "getrandom 0.3.3",
  "log",
  "rand 0.9.1",
  "tracing",
@@ -2559,13 +2560,14 @@ dependencies = [
 [[package]]
 name = "getrandom"
 version = "0.3.3"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "26145e563e54f2cadc477553f1ec5ee650b00862f0a58bcd12cbdc5f0ea2d2f4"
+source = "git+https://github.com/benfrankel/getrandom#8df8846f07478cc3c6ace1fe32c193efe3f8a884"
 dependencies = [
  "cfg-if",
+ "js-sys",
  "libc",
  "r-efi",
  "wasi 0.14.2+wasi-0.2.4",
+ "wasm-bindgen",
 ]
 
 [[package]]

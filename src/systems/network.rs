@@ -5,7 +5,10 @@ use rand::prelude::*;
 
 use crate::{
     game::reset_game,
-    systems::{audio::HUB_SFX_PATH, pulse::Heartbeat},
+    systems::{
+        // audio::HUB_SFX_PATH,
+        pulse::Heartbeat,
+    },
     types::{
         hub::{CentralHub, Hub, spawn_hub, spawn_hub_mask},
         module::Module,
@@ -34,7 +37,7 @@ impl Plugin for NetworkPlugin {
 fn generate_hub_map(mut commands: Commands, asset_server: Res<AssetServer>) {
     let hub_texture = asset_server.load("images/hub.png");
     let mask_texture = asset_server.load("images/hub_mask.png");
-    let audio_source = asset_server.load(HUB_SFX_PATH);
+    // let audio_source = asset_server.load(HUB_SFX_PATH);
     let mut rng = rand::rng();
     let mut layer_multiplier = 1.0;
 
@@ -44,7 +47,7 @@ fn generate_hub_map(mut commands: Commands, asset_server: Res<AssetServer>) {
             Vec2 { x: 0.0, y: 0.0 },
             layer_multiplier,
             hub_texture.clone(),
-            audio_source.clone(),
+            // audio_source.clone(),
         ),
         CentralHub,
         children![spawn_hub_mask(mask_texture.clone())],
@@ -71,7 +74,7 @@ fn generate_hub_map(mut commands: Commands, asset_server: Res<AssetServer>) {
                     Vec2 { x, y },
                     layer_multiplier,
                     hub_texture.clone(),
-                    audio_source.clone(),
+                    // audio_source.clone(),
                 ),
                 Heartbeat { ..default() },
                 children![spawn_hub_mask(mask_texture.clone())],

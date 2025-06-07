@@ -3,7 +3,7 @@ use bevy::{prelude::*, render::primitives::Aabb};
 use crate::{
     dnd::drop::Dropable,
     systems::{collisions::CollisionTimer, effects::PulsingMask},
-    types::sounds::HubSfx,
+    // types::sounds::HubSfx,
 };
 
 use super::energy::Energy;
@@ -24,7 +24,7 @@ pub fn spawn_hub(
     position: Vec2,
     multiplier: f32,
     texture: Handle<Image>,
-    source: Handle<AudioSource>,
+    // source: Handle<AudioSource>,
 ) -> impl Bundle {
     (
         Name::new("Hub"),
@@ -40,8 +40,8 @@ pub fn spawn_hub(
         },
         Energy { ..default() },
         Dropable,
-        HubSfx,
-        AudioPlayer::new(source),
+        // HubSfx,
+        // AudioPlayer::new(source),
     )
 }
 

@@ -82,18 +82,17 @@ Grow a network of energy dispersing hubs - each causing the others to react.
 - [x] Day 4: energy dispersal, effects
 - [x] Day 5: energy dispersal, boost, sound system-ish
 - [x] Day 6: testing, tweaking, sound effects
-- [ ] Day 7: ship, reset button
-- [ ] Day 8: SHIP!
+- [x] Day 7: ship, reset button
+- [ ] Day 8: JUICE!
 - [ ] Day 9: JUICE!
 
 ## Issues
 
 - [ ] why can't we see all the hubs?
-- [ ] hub mask does not blink if holding module (feature?)
 
 ### Web
 
 - [x] needs reset button
-- [ ] get rid of EGUI inspector
-- [ ] sound TOO loud
-- [ ] cannot see mask blinking
+- [x] sound TOO loud - no hub
+- [x] get rid of EGUI inspector
+- [x] cannot see mask blinking

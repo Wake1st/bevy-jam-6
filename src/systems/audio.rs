@@ -2,7 +2,7 @@ use bevy::{audio::Volume, prelude::*};
 
 const LOCAL_VOLUME: f32 = 0.4;
 pub const GLOBAL_VOLUME: f32 = 0.2;
-pub const HUB_SFX_PATH: &str = "sounds/hub_ping.ogg";
+// pub const HUB_SFX_PATH: &str = "sounds/hub_ping.ogg";
 pub const WAVE_SFX_PATH: &str = "sounds/wave.ogg";
 
 pub struct SfxPlugin;

@@ -25,7 +25,7 @@ pub struct NetworkPlugin;
 
 impl Plugin for NetworkPlugin {
     fn build(&self, app: &mut App) {
-        app.add_systems(
+        app.add_systems(Startup, generate_hub_map).add_systems(
             Update,
             ((clear_modules, clear_hub_map), generate_hub_map)
                 .chain()

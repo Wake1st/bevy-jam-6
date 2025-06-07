@@ -5,7 +5,7 @@ use crate::dnd::drag::{Draggable, Dragging};
 pub const BASE_STRENGTH: f32 = 10.0;
 // pub const BASE_RADIUS: f32 = 40.0;
 // pub const BASE_BOUNCE: u8 = 1;
-// pub const BASE_LENGTH: f32 = 1.0;
+pub const BASE_LENGTH: f32 = 240.0;
 
 const MODULE_LAYER: f32 = 1.0;
 
@@ -21,7 +21,7 @@ pub enum ModuleVarient {
     Gong(f32),
     // Generator(f32),
     // Tesla(u8),
-    // Lazer(f32),
+    Lazer(f32),
 }
 
 #[derive(Reflect, Component, Default, Debug, Clone)]
@@ -42,9 +42,9 @@ pub struct Gong;
 // // pub bounces: u8, // how many times the bolt ricochets
 // // }
 
-// #[derive(Reflect, Component, Default, Debug, Clone)]
-// #[reflect(Component)]
-// pub struct Lazer;
+#[derive(Reflect, Component, Default, Debug, Clone)]
+#[reflect(Component)]
+pub struct Lazer;
 // // pub count: u8, // how many beams
 // // }
 
@@ -80,21 +80,21 @@ pub fn spawn_gong(position: Vec2, texture: Handle<Image>) -> impl Bundle {
 //     )
 // }
 
-// pub fn spawn_lazer(position: Vec2, texture: Handle<Image>) -> impl Bundle {
-//     (
-//         Name::new("Lazer"),
-//         Sprite::from_image(texture),
-//         Transform::from_translation(position.extend(MODULE_LAYER)),
-//         Module {
-//             level: 1,
-//             multiplier: 1.0,
-//             varient: ModuleVarient::Lazer(BASE_LENGTH),
-//         },
-//         Lazer,
-//         Draggable,
-//         Dragging,
-//     )
-// }
+pub fn spawn_lazer(position: Vec2, texture: Handle<Image>) -> impl Bundle {
+    (
+        Name::new("Lazer"),
+        Sprite::from_image(texture),
+        Transform::from_translation(position.extend(MODULE_LAYER)),
+        Module {
+            level: 1,
+            multiplier: 1.0,
+            varient: ModuleVarient::Lazer(BASE_LENGTH),
+        },
+        Lazer,
+        Draggable,
+        Dragging,
+    )
+}
 
 // pub fn spawn_tesla(position: Vec2, texture: Handle<Image>) -> impl Bundle {
 //     (

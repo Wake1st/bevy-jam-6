@@ -5,11 +5,15 @@ pub const ENERGY_CAP: f32 = 6.0;
 
 pub const WAVE_RADIUS: f32 = 12.;
 pub const WAVE_THICCNESS: f32 = 0.6;
+
 // pub const FIELD_RADIUS_RATIO: f32 = 6.;
 // pub const BOLT_RADIUS: f32 = 24.;
-// pub const BEAM_THICCNESS: f32 = 16.;
 
-const ENERGY_LAYER: f32 = 0.4;
+pub const BEAM_THICCNESS: f32 = 16.;
+pub const BEAM_LENGTH: f32 = 240.;
+pub const BEAM_CYCLE_SECS: f32 = 6.0;
+
+pub const ENERGY_LAYER: f32 = 0.4;
 
 #[derive(Component, Default)]
 pub struct Energy {
@@ -33,22 +37,31 @@ pub struct Wave {
 //     pub bounces: f32,
 // } // Tesla
 
-// #[derive(Component)]
-// pub struct Beam {
-//     pub length: f32,
-//     pub angle: f32,
-// } // Lazer
+#[derive(Component)]
+pub struct Beam {
+    // pub length: f32,
+    pub angle: f32,
+    pub age: f32,
+}
+
+impl Default for Beam {
+    fn default() -> Self {
+        Self {
+            // length: BEAM_LENGTH,
+            angle: 0.0,
+            age: 0.0,
+        }
+    }
+} // Lazer
 
 pub fn spawn_energy_type(
     position: Vec2,
     mesh: Handle<Mesh>,
     material: Handle<ColorMaterial>,
-    source: Handle<AudioSource>,
 ) -> impl Bundle {
     (
         Mesh2d(mesh),
         MeshMaterial2d(material),
         Transform::from_translation(position.extend(ENERGY_LAYER)),
-        AudioPlayer::new(source),
     )
 }

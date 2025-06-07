@@ -10,7 +10,7 @@ pub struct SfxPlugin;
 impl Plugin for SfxPlugin {
     fn build(&self, app: &mut App) {
         app.add_event::<QueueSFX>();
-        app.add_systems(Update, play_sound);
+        app.add_systems(Update, play_sound_once);
     }
 }
 
@@ -29,7 +29,7 @@ pub struct QueueSFX {
 //     // BEAM,
 // }
 
-fn play_sound(mut reader: EventReader<QueueSFX>, mut sfx_sinks: Query<&mut AudioSink>) {
+fn play_sound_once(mut reader: EventReader<QueueSFX>, mut sfx_sinks: Query<&mut AudioSink>) {
     for e in reader.read() {
         let Ok(mut sink) = sfx_sinks.get_mut(e.entity) else {
             continue;

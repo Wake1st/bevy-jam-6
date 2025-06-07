@@ -5,7 +5,7 @@ use bevy::{
 use bevy_cursor::CursorLocation;
 
 use crate::{
-    systems::{currency::Currency, relationships::HubHolder},
+    systems::{beam_dispersal::BoostBeam, currency::Currency, relationships::HubHolder},
     types::module::Module,
 };
 
@@ -62,6 +62,7 @@ fn boost_hub(
     holders: Query<&HubHolder>,
     mut modules: Query<&mut Module>,
     mut currency: ResMut<Currency>,
+    mut boost_beam: EventWriter<BoostBeam>,
 ) {
     for e in boosted.read() {
         let Ok(holder) = holders.get(e.hub) else {
@@ -76,8 +77,14 @@ fn boost_hub(
         let cost = (BOOST_MULTIPLIER * module.multiplier.powf(BOOST_EXPONENT)) as i128;
         if currency.0 > cost {
             currency.0 -= cost;
+
             module.level += 1;
             module.multiplier += MULTIPLIER_INCREMENT;
+
+            boost_beam.write(BoostBeam {
+                module: holder.0,
+                boost: module.multiplier,
+            });
         }
     }
 }

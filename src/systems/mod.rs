@@ -8,22 +8,23 @@ use shop::ShopPlugin;
 use ui::UIPlugin;
 
 use crate::systems::{
-    audio::SfxPlugin, boost::BoostPlugin, collisions::CollisionPlugin, dispersal::DispersalPlugin,
-    relationships::RelationshipPlugin,
+    audio::SfxPlugin, beam_dispersal::BeamDispersalPlugin, boost::BoostPlugin,
+    collisions::CollisionPlugin, relationships::RelationshipPlugin,
+    wave_dispersal::WaveDispersalPlugin,
 };
 
 pub mod audio;
+pub mod beam_dispersal;
 pub mod boost;
 pub mod collisions;
 pub mod currency;
-pub mod dispersal;
 pub mod effects;
 pub mod network;
 pub mod pulse;
 pub mod relationships;
 pub mod shop;
 pub mod ui;
-
+pub mod wave_dispersal;
 pub struct SystemsPlugin;
 
 impl Plugin for SystemsPlugin {
@@ -32,7 +33,8 @@ impl Plugin for SystemsPlugin {
             NetworkPlugin,
             PulsePlugin,
             RelationshipPlugin,
-            DispersalPlugin,
+            WaveDispersalPlugin,
+            BeamDispersalPlugin,
             CollisionPlugin,
             BoostPlugin,
         ))

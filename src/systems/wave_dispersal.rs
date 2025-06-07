@@ -19,9 +19,9 @@ use crate::{
 const WAVE_SPEED: f32 = 64.;
 const STRENGTH_TO_RADIUS: f32 = 0.1;
 
-pub struct DispersalPlugin;
+pub struct WaveDispersalPlugin;
 
-impl Plugin for DispersalPlugin {
+impl Plugin for WaveDispersalPlugin {
     fn build(&self, app: &mut App) {
         app.add_systems(
             Update,
@@ -59,7 +59,10 @@ fn create_wave(
         let material = materials.add(ENERGY_COLOR);
         let audio_source = asset_server.load(WAVE_SFX_PATH);
 
-        let ModuleVarient::Gong(strength) = module.varient;
+        let ModuleVarient::Gong(strength) = module.varient else {
+            continue;
+        };
+
         let id = commands
             .spawn((
                 Name::new("Wave"),
@@ -67,8 +70,8 @@ fn create_wave(
                     position,
                     meshes.add(Annulus::new(WAVE_RADIUS - WAVE_THICCNESS, WAVE_RADIUS)),
                     material,
-                    audio_source,
                 ),
+                AudioPlayer::new(audio_source),
                 Wave {
                     strength: strength * e.energy * module.multiplier,
                     radius: WAVE_RADIUS,
@@ -106,7 +109,6 @@ fn spread_wave(time: Res<Time>, mut waves: Query<(&mut Transform, &mut Wave)>) {
 fn destroy_wave(waves: Query<(Entity, &Wave)>, mut commands: Commands) {
     for (entity, wave) in waves.iter() {
         if wave.strength < 0.0 {
-            // commands.entity(entity).despawn_related();
             commands.entity(entity).despawn();
         }
     }

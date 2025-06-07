@@ -4,7 +4,7 @@ use bevy_cursor::CursorLocation;
 use crate::{
     game::ResetGame,
     theme::palette::{ENERGY_COLOR, UI_BACKGROUND},
-    types::module::{BASE_STRENGTH, ModuleVarient},
+    types::module::{BASE_LENGTH, BASE_STRENGTH, ModuleVarient},
 };
 
 use super::{
@@ -12,7 +12,8 @@ use super::{
         Currency,
         CurrencyAdjusted,
         PRICE_GONG,
-        // PRICE_GENERATOR, PRICE_LAZER, PRICE_TESLA
+        PRICE_LAZER,
+        // PRICE_GENERATOR, PRICE_TESLA
     },
     shop::Purchased,
 };
@@ -138,18 +139,18 @@ fn spawn_shop(mut commands: Commands, asset_server: Res<AssetServer>) {
     //         ChildOf(base),
     //     ))
     //     .observe(shop_button_selected);
-    // commands
-    //     .spawn((
-    //         spawn_shop_button(
-    //             Vec2::new(UI_X_OFFSET + (UI_GAP + UI_LENGTH) * 1.5, -8.),
-    //             asset_server.load("images/lazer.png"),
-    //             ModuleVarient::Lazer(BASE_LENGTH),
-    //             asset_server.load("fonts/SixtyfourConvergence-Regular.ttf"),
-    //             PRICE_LAZER,
-    //         ),
-    //         ChildOf(base),
-    //     ))
-    //     .observe(shop_button_selected);
+    commands
+        .spawn((
+            spawn_shop_button(
+                Vec2::new(UI_X_OFFSET + (UI_GAP + UI_LENGTH) * 1.5, -8.),
+                asset_server.load("images/lazer.png"),
+                ModuleVarient::Lazer(BASE_LENGTH),
+                asset_server.load("fonts/SixtyfourConvergence-Regular.ttf"),
+                PRICE_LAZER,
+            ),
+            ChildOf(base),
+        ))
+        .observe(shop_button_selected);
 }
 
 fn spawn_shop_button(
@@ -235,7 +236,7 @@ fn shop_button_selected(
         ModuleVarient::Gong(_) => PRICE_GONG,
         // ModuleVarient::Generator(_) => PRICE_GENERATOR,
         // ModuleVarient::Tesla(_) => PRICE_TESLA,
-        // ModuleVarient::Lazer(_) => PRICE_LAZER,
+        ModuleVarient::Lazer(_) => PRICE_LAZER,
     };
 
     if currency.0 > cost {

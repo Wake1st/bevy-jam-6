@@ -43,26 +43,23 @@ fn remove_module(mut removed: EventReader<ModuleRemoved>, mut commands: Commands
     }
 }
 
-// /// connecting energy dispensors to hubs
+/// connecting lazers to beams
+#[derive(Component, Debug)]
+#[relationship(relationship_target = BeamOf)]
+pub struct LazerBeam(pub Entity);
+
+#[derive(Component, Debug)]
+#[relationship_target(relationship = LazerBeam)]
+pub struct BeamOf(Entity);
+
+// /// connecting beams to rays
 // #[derive(Component, Debug)]
-// #[relationship(relationship_target = EnergyReceiver)]
-// pub struct EnergyGiver(pub Vec<Entity>);
+// #[relationship(relationship_target = RayOf)]
+// pub struct BeamRay(pub Entity);
 
 // #[derive(Component, Debug)]
-// #[relationship_target(relationship = EnergyGiver)]
-// pub struct EnergyReceiver(Vec<Entity>);
-
-// #[derive(Event, Debug)]
-// pub struct EnergyConnected {
-//     pub giver: Entity,
-//     pub receiver: Entity,
-// }
-
-// #[derive(Event, Debug)]
-// pub struct EnergyDisconnected {
-//     pub giver: Entity,
-//     pub receiver: Entity,
-// }
+// #[relationship_target(relationship = BeamRay)]
+// pub struct RayOf(Entity);
 
 // fn connect_energy(mut connected: EventReader<EnergyConnected>, mut commands: Commands) {
 //     for e in connected.read() {

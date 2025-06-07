@@ -7,7 +7,8 @@ use crate::{
         currency::{
             CurrencyAdjusted,
             PRICE_GONG,
-            // PRICE_GENERATOR, PRICE_LAZER, PRICE_TESLA
+            // PRICE_GENERATOR, PRICE_TESLA
+            PRICE_LAZER,
         },
         relationships::ModuleAttached,
     },
@@ -106,7 +107,7 @@ fn released(
                     ModuleVarient::Gong(_) => PRICE_GONG,
                     // ModuleVarient::Generator(_) => PRICE_GENERATOR,
                     // ModuleVarient::Tesla(_) => PRICE_TESLA,
-                    // ModuleVarient::Lazer(_) => PRICE_LAZER,
+                    ModuleVarient::Lazer(_) => PRICE_LAZER,
                 },
             });
         }
